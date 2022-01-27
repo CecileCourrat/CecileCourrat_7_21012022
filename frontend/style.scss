@@ -6,7 +6,6 @@ body {
 }
 
 
-
 header {
     display: flex;
     justify-content: center;
@@ -44,11 +43,10 @@ nav {
         left: 0;
         width: 85%;
         height: 2px;
-        background-color:#ffd7d7;
+        background-color: #fd2d01;
     }
 
-        
-    
+           
 }
 
 form {
@@ -58,6 +56,7 @@ form {
     input {
         margin: 10px;
         height: 30px;
+        padding: 5px;
     }
     button {
         border-radius: 20px;
@@ -67,4 +66,114 @@ form {
         font-size: 16px;
         box-shadow: 5px 5px 10px #d4d4d4;
     }
+}
+
+
+.header__profil {
+    justify-content: space-around;
+    } 
+    .avatar { 
+       height: 50px;
+       padding: 0 10px 2px 0;
+    }
+    .deconnexion {
+        height: 60px;
+        padding: 5px 0 0 50px;
+    }
+
+.profil {
+    display: flex;
+    justify-content: center;
+}  
+  
+.page__profil {
+    box-shadow: 5px 5px 10px #d4d4d4;
+    border-radius: 20px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+}
+
+.avatar__profil {
+    margin: 10px;
+}
+
+.fil__actualites {
+    display: flex;
+    justify-content: center;
+}
+
+.publication {
+    border: 1px solid rgb(194, 194, 194);
+    width: 60%;
+    padding: 15px;
+}
+
+.publication__post {
+   input {
+       width: 70%;
+       padding: 15px;
+       border-radius:20px;
+       border: 1px solid rgb(194, 194, 194);
+   }
+   .publication__boutons {
+       display: flex;
+       justify-content: space-evenly;
+   }
+   button {
+       border-radius: 20px;
+       border:none;
+       width: 40%;
+       padding: 15px;
+       margin: 5px;
+       box-shadow: 5px 5px 10px #d4d4d4;
+       font-weight: bold;
+   }
+}
+
+p {
+    display: flex;
+    justify-content: center;
+}
+
+.fil__post {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.post {
+    border: 1px solid rgb(194, 194, 194);
+    width: 62%;
+}
+
+.post__details {
+    display: flex;
+    margin: 5px;
+}
+
+.comment {
+    border: 1px solid rgb(194, 194, 194);
+    width: 62%;
+    .comment__post {
+        margin: 10px;
+    }
+    .comment__icons {
+        display: flex;
+        justify-content: space-around;
+        padding: 15px;
+    }
+    .comment__button {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.button {
+    margin: 5px;
+    padding: 15px;
+    border-radius: 20px;
+    border: 1px solid rgb(194, 194, 194);
+    width: 50%
 }

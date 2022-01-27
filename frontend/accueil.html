@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Réseau social Groupomania">
+        <link rel="icon" href="./public/favicon.ico">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="../src/css/style.css">
+        <script src="https://kit.fontawesome.com/1a22d99172.js" crossorigin="anonymous"></script>
+        <title>Groupomania</title>
+    </head>
+
+    <body>
+        <header class="header__profil">
+            <img src="images/icon-left-font-monochrome-black copy.png" class="header__logo" alt="logo Groupomania">
+            <nav>
+                <img src="images/icon-avatar copy.png" class="avatar" alt="photo de profil">
+                <img src="images/icon-deconnexion copy.png" class="deconnexion" alt="icone de deconnexion">
+        </header>
+
+        <main>
+            <section class="fil__actualites">
+                <div class="publication">
+               <img src="images/icon-avatar copy.png" class="avatar" alt="photo de profil">
+               <div class="publication__post">
+                   <input type="text" placeholder="Quoi de neuf ?"></input>
+                   <div class="publication__boutons">
+                   <button>Ajouter un fichier</button>
+                   <button>Publier</button>
+                   </div>
+               </div>
+            </div>
+            </section>
+            <p>Publications récentes</p>
+            <section class="fil__post">
+                <div class="post">
+                    <div class="post__details">
+                    <div class="post__image"><img src="images/icon-avatar copy.png" class="avatar" alt="photo de profil"></div>
+                    <div>Prénom Nom<br>
+                    Publié le 27/01/2022</div>
+                    </div>
+                </div>  
+            
+                <div class="comment">
+                    <div class="comment__post">blablabla</div>
+                    <div class="comment__icons"><i class="far fa-heart"></i>
+                    <i class="far fa-comment"></i>
+                    </div>
+                    <div class="comment__button">
+                        <input class="button" type="text" placeholder="Ajouter votre commentaire"></input>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>
