@@ -3,16 +3,16 @@ const helmet = require('helmet');
 const dotenv = require('dotenv');
 dotenv.config();
 const path = require('path');
-const { Sequelize }  = require('sequelize');
+const sequelize = require('./config/sequelize');
 
-const sequelize = new Sequelize('database', 'root', '10011982CC', {
-    dialect: 'mysql',
-    host: 'localhost'
-});
+
 
 try {
     sequelize.authenticate();
     console.log('Connecté à la base de données MySQL!');
+    sequelize.query("CREATE DATABASE `test`;").then(([results, metadata]) => {
+      console.log('Base de données créée !');
+    })
   } catch (error) {
     console.error('Impossible de se connecter, erreur suivante :', error);
 }
