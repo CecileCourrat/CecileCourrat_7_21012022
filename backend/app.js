@@ -1,10 +1,13 @@
 const express = require('express');
+const helmet = require('helmet');
+const dotenv = require('dotenv');
+dotenv.config();
 const path = require('path');
 const { Sequelize }  = require('sequelize');
 
-const sequelize = new Sequelize("database", "root", "10011982CC", {
-    dialect: "mysql",
-    host: "localhost"
+const sequelize = new Sequelize('database', 'root', '10011982CC', {
+    dialect: 'mysql',
+    host: 'localhost'
 });
 
 try {
@@ -14,7 +17,15 @@ try {
     console.error('Impossible de se connecter, erreur suivante :', error);
 }
 
+const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
+const likeRoutes = require('./routes/like');
+const commentRoutes = require('./routes/comment');
+
+
 const app = express();
+
+app.use(helmet());
 
 
 app.use((req, res, next) => {
@@ -27,5 +38,10 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+app.use('/api/user', userRoutes);
+app.use('/api/post', postRoutes);
+app.use('/api/like', likeRoutes);
+app.use('/api/comment', commentRoutes);
 
 module.exports = app;
