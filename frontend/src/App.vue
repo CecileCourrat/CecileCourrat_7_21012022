@@ -1,6 +1,6 @@
 <template>
   <div id='app'>
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
@@ -8,5 +8,8 @@
 #app {
   font-family: 'Roboto', sans-serif;
   margin: 0;
+h1 {
+  font-size: 30px;
+}
 }
 </style>

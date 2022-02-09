@@ -8,7 +8,7 @@
             <input type='text' placeholder='Quoi de neuf ?'>
           <div class='publication__boutons'>
             <button>Ajouter un fichier</button>
-            <button>Publier</button>
+            <button >Publier</button>
           </div>
         </div>
       </div>
@@ -44,7 +44,19 @@ export default {
     name: 'Post',
     components: {
     HeaderPost
-  }
+  },
+ // data() {
+    // return {
+   //   publication: ''
+   // }
+  //},
+  //methods: {
+   //   createPost: function () {
+      //  this.$store.dispatch('createPost', {
+      //  publication: this.publication
+      //  })
+     // }
+ // } 
 }
 </script>
 

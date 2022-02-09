@@ -1,18 +1,13 @@
 const express = require('express');
 const helmet = require('helmet');
-const dotenv = require('dotenv');
-dotenv.config();
 const path = require('path');
-const sequelize = require('./config/sequelize');
+const { sequelize } = require('./models');
 
 
 
 try {
     sequelize.authenticate();
     console.log('Connecté à la base de données MySQL!');
-    sequelize.query("CREATE DATABASE `test`;").then(([results, metadata]) => {
-      console.log('Base de données créée !');
-    })
   } catch (error) {
     console.error('Impossible de se connecter, erreur suivante :', error);
 }
@@ -35,6 +30,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));

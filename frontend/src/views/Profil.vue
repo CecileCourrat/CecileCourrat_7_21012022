@@ -8,7 +8,7 @@
             <p>Modifier la photo</p>
            </div>
            <div>
-            <p>Prénom Nom</p>
+            <p>prénom nom</p>
             </div>
             <div>Dernières publications</div>
             <div>Modifier mon mot de passe</div>
@@ -20,12 +20,26 @@
 
 <script>
 import HeaderPost from '../components/HeaderPost.vue';
+//import { mapState } from 'vuex'
 
 export default { 
     name: 'Profil',
+    //mounted () {
+    // console.log(this.$store.state.user);
+    //if (this.$store.state.user.userId == -1) {
+    // this.self.$router.push('/');
+     //return
+    //}
+    // this.$store.dispatch('getUserInfos');
+   // },
     components: {
-    HeaderPost
-  }
+    HeaderPost,
+  },
+ // computed: {
+    //...mapState({
+    // user: 'userInfos',
+   //})
+  //}
 }
 </script>
 

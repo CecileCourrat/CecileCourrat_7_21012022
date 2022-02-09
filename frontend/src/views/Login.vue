@@ -11,10 +11,10 @@
     <div class='form'>
       <input v-model='email' type='email' placeholder='Adresse email'>
       <input v-model='password' type='password' placeholder='Mot de passe'>
-      <button @click='login()' v-if='mode == "login"'>Connexion</button>
-      <button @click='createAccount()' v-else>Inscription</button>
+      <button  v-if='mode == "login"'>Connexion</button>
+      <button  v-else>Inscription</button>
       <p v-if='mode == "login"'>Vous n'avez pas encore de compte ? <span class='login' @click='switchToAccount()'>Créer un compte</span></p>
-      <p v-else>Vous avez déjà un compte ? <span class='login'  @click='switchToLogin()'>Se connecter</span></p>
+      <p v-else>Vous avez déjà un compte ? <span class='login' @click='switchToLogin()'>Se connecter</span></p>
     </div>
     </div>
   </div>
@@ -22,51 +22,92 @@
 
 <script>
 import Header from '../components/Header.vue';
+//import { mapState } from 'vuex'
+
 export default {
   name: 'Login',
   components: {
     Header
   },
-  data: function () {
-    return {
+    data () {
+     return {
       mode: 'login',
       email: '',
       prenom: '',
       nom: '',
       password: ''
-    }
+      }
   },
+  //mounted() {
+   // if (this.$store.state.user.userId != -1) {
+   //  this.self.$router.push('/post');
+   //  return
+   // }
+  //},
+  //computed: {
+    // validatedFields() {
+     // if (this.mode == 'create') {
+      //  if (this.email != "" && this.prenom != "" && this.nom != "" && this.password != "") {
+       //   return true;
+        //} else {
+        //  return false;
+       // }
+      //} else {
+       // if (this.email != "" && this.password != "") {
+        //  return true;
+       // } else {
+        //  return false;
+        //}
+      // }
+    // },
+     //  ...mapState(['status'])
+  //},
   methods: {    
-    switchToAccount: function () {
+    switchToAccount() {
       this.mode = 'create';
     },
-    switchToLogin: function () {
+    switchToLogin() {
       this.mode = 'login';
     },
-    login: function () {
-      const self = this;
-      this.$store.dispatch('login', {
-        email: this.email,
-        password: this.password,
-      }).then(function () {
-        self.$router.push('/post');
-      }, function (error) {
-        console.log(error);
-      })
-    },
-    createAccount: function () {
-      const self= this;
-      this.$store.dispatch('createAccount', {
-        email: this.email,
-        nom: this.nom,
-        prenom: this.prenom,
-        password: this.password,
-      }).then(function () {
-        self.login();
-      })
-    },
-  }  
-}
+//     login() {
+//     //  if ( this.email != '' && this.password !='') {
+//      //   if(this.email == this.$parent.mockAccount.email && this.password == this.$parent.mockAccount.password) {
+//       //      this.$emit("authenticated", true);
+//       //      this.$router.replace({ name: "post" });
+//       //  } else {
+//       //      console.log("The username and / or password is incorrect");
+//        // }
+//    // } else {
+//        // console.log("A username and password must be present");
+//   //  }
+
+      
+//       const self = this;
+//       this.$store.dispatch('login', {
+//         email: this.email,
+//         password: this.password,
+//       }).then(function () {
+//        self.$router.push('/post');
+//       }, function (error) {
+//         console.log(error);
+//     })
+//     },
+//     createAccount() {
+      
+//       const self= this;
+//       this.$store.dispatch('createAccount', {
+//        email: this.email,
+//         nom: this.nom,
+//         prenom: this.prenom,
+//         password: this.password,
+//       }).then(function () {
+//         self.login();
+//       }, function (error) {
+//         console.log(error);
+//       })
+    
+   }  
+ }
 </script>
 
 
