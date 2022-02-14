@@ -20,6 +20,7 @@
 
 <script>
 import HeaderPost from '../components/HeaderPost.vue';
+
 //import { mapState } from 'vuex'
 
 export default { 
@@ -62,5 +63,4 @@ export default {
       margin: 10px;
     }
 }
-
 </style>

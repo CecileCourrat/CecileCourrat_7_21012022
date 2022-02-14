@@ -1,11 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/Login.vue'
 import Post from '../views/Post.vue'
 import Profil from '../views/Profil.vue'
 
-
-Vue.use(VueRouter)
 
 const routes = [
   {
@@ -23,7 +20,8 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHistory(),
   routes
 })
 

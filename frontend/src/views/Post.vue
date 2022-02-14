@@ -1,14 +1,14 @@
 <template>
  <div>
   <HeaderPost/>
-   <div class='accueil__post'>
-     <div class='publication'>
-      <img src='../assets/icon-avatar.png' class='avatar' alt='photo de profil'>
-        <div class='publication__post'>
-            <input type='text' placeholder='Quoi de neuf ?'>
-          <div class='publication__boutons'>
+   <div class="accueil__post">
+     <div class="publication">
+      <img src="../assets/icon-avatar.png" class="avatar" alt="photo de profil">
+        <div class="publication__post">
+            <input v-model="publication" type="text" placeholder="Quoi de neuf ?">
+          <div class="publication__boutons">
             <button>Ajouter un fichier</button>
-            <button >Publier</button>
+            <button @click="createPost">Publier</button>
           </div>
         </div>
       </div>
@@ -40,23 +40,24 @@
 <script>
 import HeaderPost from '../components/HeaderPost.vue';
 
+
 export default { 
     name: 'Post',
     components: {
     HeaderPost
   },
- // data() {
-    // return {
-   //   publication: ''
-   // }
-  //},
-  //methods: {
-   //   createPost: function () {
-      //  this.$store.dispatch('createPost', {
-      //  publication: this.publication
-      //  })
-     // }
- // } 
+  data() {
+    return {
+     publication: ''
+    }
+  },
+  methods: {
+      createPost () {
+        this.$store.dispatch('createPost', {
+        publication: this.publication
+      })
+    }
+  } 
 }
 </script>
 
@@ -138,5 +139,4 @@ p {
     border: 1px solid rgb(194, 194, 194);
     width: 50%
 }
-
 </style>

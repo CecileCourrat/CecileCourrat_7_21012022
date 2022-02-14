@@ -1,6 +1,6 @@
 <template>
  <header class='header__post'> 
-    <img @click="accueil()" src='../assets/logo copy.png' class='header__logo' alt='logo Groupomania'>
+    <img @click="accueil()" src='../assets/logo-copy.png' class='header__logo' alt='logo Groupomania'>
     <nav>
       <div class="image__profil">
        <img @click="profil()"  class='avatar'>
@@ -29,7 +29,6 @@ export default {
         }
     }
 }
-
 </script>
 
 
@@ -72,5 +71,4 @@ export default {
     //    height: 60px;
     //    padding: 5px 0 0 50px;
    // }
-
 </style>

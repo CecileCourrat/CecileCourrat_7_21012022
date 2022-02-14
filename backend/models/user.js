@@ -1,45 +1,46 @@
-'use strict';
-const { Model } = require('sequelize');
-
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
-  User.init(
-    {
+module.exports = (sequelize, Sequelize) => {
+  const User = sequelize.define('User', {
     prenom: {
-      type:DataTypes.STRING,
+      type: Sequelize.STRING(100),
       allowNull: false,
     },
     nom: {
-      type:DataTypes.STRING,
+      type: Sequelize.STRING(100),
       allowNull: false,
     },
     email: {
-      type:DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
       unique: true
     },
     password: {
-      type:DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     image: {
-      type:DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
       default: 'http://localhost:3000/images/icon-avatar.png'
+    },
+    isAdmin: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      default: false
     }
-  }, 
-  {
-    sequelize,
-    modelName: 'User',
-  });
-  return User;
-};
+  },
+   { tableName: 'User'
+   }
+  );
+  User.associate = models => {
+    User.hasMany(models.Post,{
+          onDelete: 'cascade'
+      });
+    User.hasMany(models.Comment,{
+          onDelete: 'cascade'
+      });
+      };
+      return User;
+  };
+ 
+  
+  

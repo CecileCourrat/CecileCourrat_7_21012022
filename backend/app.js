@@ -1,16 +1,8 @@
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
-const { sequelize } = require('./models');
 
 
-
-try {
-    sequelize.authenticate();
-    console.log('Connecté à la base de données MySQL!');
-  } catch (error) {
-    console.error('Impossible de se connecter, erreur suivante :', error);
-}
 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
@@ -30,8 +22,8 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
