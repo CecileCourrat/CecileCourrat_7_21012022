@@ -22,7 +22,7 @@
 
 <script>
 import Header from '../components/Header.vue';
-
+import axios from 'axios';
 
 
 export default {
@@ -37,8 +37,8 @@ export default {
        prenom: '',
        nom: '',
        password: ''
-       }
-  },
+      };
+},
   methods: {   
     switchToCreateAccount() {
       this.mode = 'create';
@@ -46,27 +46,39 @@ export default {
     switchToLogin() {
       this.mode = 'login';
     }, 
+    createAccount() {
+       if 
+        (this.email !== null || this.nom !== null || this.prenom !== null ||this.password !== null) 
+       {
+      const self = this;
+      axios
+      .post('http://localhost:3000/api/user/signup', {
+        prenom: this.prenom,
+        nom: this.nom,
+        email: this.email,
+        password: this.password
+      })
+      .then(response => {
+        console.log(response),
+        self.$router.push('/post')
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+  },
     login () {
       const self = this;
-     // this.$store.dispatch('login', {
-      //  email: this.email,
-       // password: this.password,
-     // }).then(function () {
-        self.$router.push('/post');
-      }, function (error) {
+      axios
+      .post('http://localhost:3000/api/user/login', {
+        email: this.email,
+        password: this.password,
+      }).then(function () {
+          self.$router.push('/post')
+        })
+        .catch(error => {
         console.log(error);
-     // })
-    },
-    createAccount() {
-       const self = this;
-      // this.$store.dispatch('createAccount', {
-      //   email: this.email,
-      //   nom: this.nom,
-      //   prenom: this.prenom,
-      //   password: this.password,
-      // }).then(function () {
-        self.$router.push('/post');
-      // })
+      });
     },
   }
 }  

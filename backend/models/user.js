@@ -1,11 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define('User', {
     prenom: {
-      type: Sequelize.STRING(100),
+      type: Sequelize.STRING,
       allowNull: false,
     },
     nom: {
-      type: Sequelize.STRING(100),
+      type: Sequelize.STRING,
       allowNull: false,
     },
     email: {
@@ -20,7 +20,6 @@ module.exports = (sequelize, Sequelize) => {
     image: {
       type: Sequelize.STRING,
       allowNull: false,
-      default: 'http://localhost:3000/images/icon-avatar.png'
     },
     isAdmin: {
       type: Sequelize.BOOLEAN,
@@ -38,9 +37,12 @@ module.exports = (sequelize, Sequelize) => {
     User.hasMany(models.Comment,{
           onDelete: 'cascade'
       });
-      };
-      return User;
-  };
+    User.hasMany(models.Like,{
+        onDelete: 'cascade'
+    });
+    };
+    return User;
+};
  
   
   

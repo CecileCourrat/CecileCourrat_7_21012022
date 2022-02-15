@@ -1,9 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
-    const Like = sequelize.define(
-        'Like', 
-        {},
-        {
-            tableName: 'like'
+    const Like = sequelize.define('Like', { 
+     },
+        { tableName: 'like'
         }
     );
     Like.associate = models => {
