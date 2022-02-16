@@ -8,7 +8,7 @@
             <p>Modifier la photo</p>
            </div>
            <div>
-            <p>prénom nom</p>
+            <p></p>
             </div>
             <div>Dernières publications</div>
             <div>Modifier mon mot de passe</div>
@@ -19,28 +19,31 @@
 </template>
 
 <script>
+//import axios from 'axios';
 import HeaderPost from '../components/HeaderPost.vue';
 
-//import { mapState } from 'vuex'
+
 
 export default { 
     name: 'Profil',
-    //mounted () {
-    // console.log(this.$store.state.user);
-    //if (this.$store.state.user.userId == -1) {
-    // this.self.$router.push('/');
-     //return
-    //}
-    // this.$store.dispatch('getUserInfos');
-   // },
     components: {
     HeaderPost,
   },
- // computed: {
-    //...mapState({
-    // user: 'userInfos',
-   //})
-  //}
+  data () {
+    return {
+      user: {},
+    }
+ // },
+ // methods: {
+  //   getUser () {
+  //     axios
+  //     .get('http://localhost:3000/api/user/:id')
+  //     .then(data => { this.user = data.user;})
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  //   },
+   }
 }
 </script>
 

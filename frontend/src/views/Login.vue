@@ -47,9 +47,6 @@ export default {
       this.mode = 'login';
     }, 
     createAccount() {
-       if 
-        (this.email !== null || this.nom !== null || this.prenom !== null ||this.password !== null) 
-       {
       const self = this;
       axios
       .post('http://localhost:3000/api/user/signup', {
@@ -58,14 +55,12 @@ export default {
         email: this.email,
         password: this.password
       })
-      .then(response => {
-        console.log(response),
+      .then(function () {
         self.$router.push('/post')
       })
       .catch(error => {
         console.log(error);
       });
-    }
   },
     login () {
       const self = this;
@@ -73,8 +68,10 @@ export default {
       .post('http://localhost:3000/api/user/login', {
         email: this.email,
         password: this.password,
-      }).then(function () {
-          self.$router.push('/post')
+      }).then(response=> {
+       // localStorage.setItem('userId',response.data.userId)
+        console.log(response),
+        self.$router.push('/post')
         })
         .catch(error => {
         console.log(error);
