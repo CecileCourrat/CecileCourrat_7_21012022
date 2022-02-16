@@ -6,7 +6,7 @@
        <img @click="profil()"  class='avatar'>
       </div>
       <div class="image__deconnexion">
-       <img @click="logout()" class='deconnexion'>
+       <img @click="logout()" src="../assets/icon-deconnexion.png" class='deconnexion'>
       </div>
     </nav>
   </header>
@@ -55,20 +55,14 @@ export default {
     margin: 5px;
 }
 
-.image__deconnexion {
-    border: 1px solid black;
-    border-radius: 50%;
-    height: 80px; 
-    width: 80px; 
-    margin: 5px;
-}
+
 
    // .avatar { 
    //    height: 50px;
     //   padding: 0 10px 2px 0;
    // }
-   // .deconnexion {
-    //    height: 60px;
-    //    padding: 5px 0 0 50px;
-   // }
+.deconnexion {
+    height: 60px;
+    padding: -20px;
+}
 </style>

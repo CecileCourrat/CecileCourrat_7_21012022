@@ -8,7 +8,7 @@
             <p>Modifier la photo</p>
            </div>
            <div>
-            <p></p>
+            <p>{{ user }}</p>
             </div>
             <div>Dernières publications</div>
             <div>Modifier mon mot de passe</div>
@@ -31,7 +31,7 @@ export default {
   },
   data () {
     return {
-      user: {},
+      user: "Maurice Moss"
     }
  // },
  // methods: {
