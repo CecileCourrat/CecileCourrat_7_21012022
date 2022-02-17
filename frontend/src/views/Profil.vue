@@ -19,7 +19,7 @@
 </template>
 
 <script>
-//import axios from 'axios';
+// import axios from 'axios';
 import HeaderPost from '../components/HeaderPost.vue';
 
 
@@ -31,19 +31,19 @@ export default {
   },
   data () {
     return {
-      user: "Maurice Moss"
+      user: ''
     }
- // },
- // methods: {
-  //   getUser () {
-  //     axios
-  //     .get('http://localhost:3000/api/user/:id')
-  //     .then(data => { this.user = data.user;})
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  //   },
-   }
+ },
+//  methods: {
+//     getUser () {
+//       axios
+//       .get('http://localhost:3000/api/user/1')
+//       .then(data => { this.user = data.getUser;})
+//       .catch(error => {
+//         console.log(error);
+//       });
+//     },
+//    }
 }
 </script>
 

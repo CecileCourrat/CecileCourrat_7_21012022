@@ -4,7 +4,6 @@ const db = require('../models');
 const fs = require('fs');
 
 
-
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
           .then(hash => {
@@ -45,10 +44,60 @@ exports.login = (req, res, next) => {
 };
 
 exports.getOneUser = (req, res, next) => {
-  User.findOne({ id: req.params.userId })
+  db.User.findOne({ where: {id: req.params.id} })
     .then(user => res.status(200).json(user))
     .catch(error => res.status(404).json({ error }));
 };
+
+exports.modifyUser = (req, res, next) => {
+  const userId = req.body.userId;
+  if (req.file) {
+    const imageUrl = `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`;
+    db.User.update({ image: imageUrl }, { where: { id: userId } });
+  }
+  db.User.update(
+    { nom: req.body.nom, prenom: req.body.prenom },
+    { where: { id: userId } }
+  )
+    .then(() => res.status(200).json({ message: 'Profil modifié !'}))
+    .catch((err) => res.status(400).json({ err }));
+};
+  
+//   const userObject = req.file ?
+//   {
+//     ...JSON.parse(req.body.user),
+//     image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+//   } : { ...req.body };
+//   db.User.findOne({ where : {id: req.params.id} })
+//     .then((user) => {
+//       if(req.file == null) {
+//         db.User.update({ where: {id: req.params.id} },
+//           { ...userObject, id: req.params.id})
+//           .then(() => res.status(200).json({ message: 'Profil modifié !' }))
+//           .catch((error) => res.status(400).json({ error }));
+//     } else {
+//       const filename = user.image.split('/images/')[1];
+//       fs.unlink(`images/${filename}`, () => {
+//    db.User.update ({ where: {id: req.params.id} }, { ...userObject, id: req.params.id })
+//     .then(() =>res.status(200).json({ message: 'Profil modifié !'}))
+//     .catch(error => res.status(400).json({ error }));
+//     });
+//   }
+// })
+// };
+
+exports.deleteUser = (req, res, next) => {
+  // db.User.findOne({  where: { id: req.params.id } })
+  //   .then(user => {
+  //     const filename = user.imageUrl.split('/images/')[1];
+  //     fs.unlink(`images/${filename}`, () => {
+        db.User.destroy( { where: { id: req.params.id } })
+        .then(() => res.status(200).json({ message: 'Compte supprimé !'}))
+        .catch(error => res.status(400).json({ error }));
+      };
+  
 
 
 

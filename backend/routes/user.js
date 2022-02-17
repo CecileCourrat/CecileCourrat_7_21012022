@@ -9,11 +9,9 @@ const multer = require('../middleware/multer');
 
 router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
-router.get('/:id', auth, userCtrl.getOneUser);
-//router.delete('/delete/:id', auth, userCtrl.delete);
-//router.put('/modify/:id', auth, multer, userCtrl.modify);
-
-
+router.get('/:id', userCtrl.getOneUser);
+router.put('/:id', multer, userCtrl.modifyUser);
+router.delete('/:id', userCtrl.deleteUser);
 
 
 module.exports = router;

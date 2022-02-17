@@ -15,8 +15,16 @@ module.exports = (sequelize, Sequelize) => {
     },
     password: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: false
     },
+    image: {
+      type: Sequelize.STRING,
+      defaultValue: 'http://localhost:3000/images/icon-avatar.png'
+    },
+    isAdmin: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    }
   },
    { tableName: 'User'
    }
