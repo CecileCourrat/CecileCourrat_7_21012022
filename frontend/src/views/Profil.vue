@@ -8,18 +8,18 @@
             <p>Modifier la photo</p>
            </div>
            <div>
-            <p>{{ user }}</p>
+            <p>{{ this.user.prenom }}</p>
             </div>
             <div>Dernières publications</div>
             <div>Modifier mon mot de passe</div>
-            <div>Désactiver mon compte</div>
+            <p class="desactivate" @click="deleteUser()">Désactiver mon compte</p>
         </div>
       </div>     
  </div> 
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 import HeaderPost from '../components/HeaderPost.vue';
 
 
@@ -31,19 +31,35 @@ export default {
   },
   data () {
     return {
-      user: ''
+      user: '',
     }
  },
-//  methods: {
-//     getUser () {
-//       axios
-//       .get('http://localhost:3000/api/user/1')
-//       .then(data => { this.user = data.getUser;})
-//       .catch(error => {
-//         console.log(error);
-//       });
-//     },
-//    }
+  methods: {
+    getUser() {
+      axios
+      .get(`http://localhost:3000/api/user/${this.userId}`,  {
+        headers: {
+          Authorization: 'Bearer' + localStorage.getItem('token')
+        }
+      })
+      .then((response) => {
+          this.user = response.data[0];
+      })
+      .catch((error) => {
+          console.log(error)
+      });
+  },
+
+    deleteUser() {
+      axios
+      .delete(`http://localhost:3000/api/user/${this.userId}`)
+      .then(() => {
+        localStorage.removeItem('userId');
+        alert('Votre compte a été désactivé');
+          this.$router.replace('/');
+        });
+    },
+  }
 }
 </script>
 
@@ -54,6 +70,10 @@ export default {
     display: flex;
     justify-content: center;
 }  
+
+.desactivate {
+  cursor: pointer;
+}
 
 .page__profil {
     box-shadow: 5px 5px 10px #d4d4d4;

@@ -73,7 +73,8 @@ export default {
         email: this.email,
         password: this.password,
       }).then(response=> {
-        localStorage.setItem('userId',response.data.userId)
+        localStorage.setItem('userId',response.data.userId);
+        localStorage.setItem('token', response.data.token);
         self.$router.push('/post')
         })
         .catch(error => {
@@ -90,6 +91,9 @@ export default {
   box-shadow: -1px 6px 18px 8px #d4d4d4;
   border-radius: 20px;
   width: 400px;
+  @media screen and (max-width: 430px) {
+    width: 250px;
+  }
   display: flex;
   flex-direction: column;
   margin: auto;
