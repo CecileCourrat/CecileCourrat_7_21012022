@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.25.0",
     "core-js": "^3.6.5",
+    "node-forge": "^0.10.0",
     "vue": "^3.2.30",
     "vue-moment": "^4.1.0",
     "vue-router": "^4.0.12",

@@ -20,7 +20,8 @@ module.exports = (sequelize, Sequelize) => {
     Post.associate = models => {
       Post.belongsTo(models.User, {
         foreignKey :{
-            allowNull: false
+            allowNull: false,
+            name: 'userId'
         }
       });
       Post.hasMany(models.Comment, {
