@@ -3,7 +3,7 @@
     <img @click="accueil()" src='../assets/logo-copy.png' class='header__logo' alt='logo Groupomania'>
     <nav>
       <div class="image__profil">
-       <img @click="profil()"  class='avatar' alt="photo de profil">
+       <img @click="profil()" src="../assets/icon-avatar.png" class='avatar' alt="photo de profil">
       </div>
       <div class="image__deconnexion">
        <img @click="logout()" src="../assets/icon-deconnexion.png" class='deconnexion' alt='icone deconnexion'>
@@ -48,19 +48,17 @@ export default {
 }
 
 .image__profil {
-    border: 1px solid black;
-    border-radius: 50%;
-    height: 80px; 
-    width: 80px; 
-    margin: 5px;
+    height: 60px; 
+    width: 60px;
+    margin: 15px;
 }
 
+.avatar {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
 
-
-   // .avatar { 
-   //    height: 50px;
-    //   padding: 0 10px 2px 0;
-   // }
 .deconnexion {
     height: 60px;
     padding: -20px;
