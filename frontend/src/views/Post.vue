@@ -5,10 +5,10 @@
      <div class="publication">
       <img src="../assets/icon-avatar.png" class="avatar" alt="photo de profil">
         <div class="publication__post">
-            <input v-model="publication" type="text" placeholder="Quoi de neuf ?">
+            <input v-model="content" type="text" placeholder="Quoi de neuf ?">
           <div class="publication__boutons">
             <button>Ajouter un fichier</button>
-            <button @click="createPost">Publier</button>
+            <button @click="createPost()">Publier</button>
           </div>
         </div>
       </div>
@@ -39,6 +39,7 @@
 
 <script>
 import HeaderPost from '../components/HeaderPost.vue';
+import axios from 'axios'
 
 
 export default { 
@@ -48,16 +49,30 @@ export default {
   },
   data() {
     return {
-     publication: ''
+     content: '',
+     image: '',
+     likes: ''
     }
   },
   methods: {
       createPost () {
-        this.$store.dispatch('createPost', {
-        publication: this.publication
+        // const fd = new FormData()
+        // fd.append('content', this.content);
+        axios
+        .post('http://localhost:3000/api/post', {
+           headers: {
+          Authorization: 'Bearer' + localStorage.getItem('token')
+        }
+        })
+      .then((response) => {
+          console.log(response);
       })
-    }
-  } 
+      .catch((error) => {
+          console.log(error)
+    
+      });
+      }
+  }
 }
 </script>
 

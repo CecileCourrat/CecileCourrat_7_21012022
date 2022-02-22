@@ -4,7 +4,8 @@
      <div class='profil'>
         <div class='page__profil'>
             <img src='../assets/icon-avatar.png' class='avatar__profil' alt='photo de profil'>
-            <p @change="uploadImage">Modifier la photo</p>
+            <input type='file' id="change_image" @change="uploadImage">
+            <button @click="viewImage">Modifier la photo</button>
            <div>
             <p>{{ prenom }} {{ nom }}</p>
             </div>
@@ -27,7 +28,8 @@ export default {
   data () {
     return {
         prenom: '',
-        nom: ''
+        nom: '',
+        image: null
     }
  },
 mounted () {
@@ -43,6 +45,25 @@ mounted () {
      });
 },
 methods : {
+    //  uploadImage(event) {
+    //    const id = localStorage.getItem('userId')
+    //    this.image = event.target.files[0];
+    //    const fd = new FormData();
+    //    fd.append('image', this.image);
+    //    axios.
+    //    put(`http://localhost:3000/api/user/${id}`, fd, {
+    //      headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //        Authorization: 'Bearer' + localStorage.getItem('token')
+    //     }
+    //    })
+    //    .then((response) => {
+    //      console.log(response);
+    //    })
+    //     .catch((error) => {
+    //       console.log(error)
+    //   });
+    //  },
      deleteUser() {
       const id = localStorage.getItem('userId')
      axios
