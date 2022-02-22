@@ -4,14 +4,10 @@
      <div class='profil'>
         <div class='page__profil'>
             <img src='../assets/icon-avatar.png' class='avatar__profil' alt='photo de profil'>
-          <div>
-            <p>Modifier la photo</p>
-           </div>
+            <p @change="uploadImage">Modifier la photo</p>
            <div>
-            <p>{{ this.user.prenom }}</p>
+            <p>{{ prenom }} {{ nom }}</p>
             </div>
-            <div>Dernières publications</div>
-            <div>Modifier mon mot de passe</div>
             <p class="desactivate" @click="deleteUser()">Désactiver mon compte</p>
         </div>
       </div>     
@@ -23,7 +19,6 @@ import axios from 'axios';
 import HeaderPost from '../components/HeaderPost.vue';
 
 
-
 export default { 
     name: 'Profil',
     components: {
@@ -31,41 +26,47 @@ export default {
   },
   data () {
     return {
-      user: '',
+        prenom: '',
+        nom: ''
     }
  },
-  methods: {
-    getUser() {
-      axios
-      .get(`http://localhost:3000/api/user/${this.userId}`,  {
+mounted () {
+     const id = localStorage.getItem('userId')
+     axios
+     .get(`http://localhost:3000/api/user/${id}`)
+     .then((response) => {
+       this.prenom = response.data.prenom
+       this.nom = response.data.nom
+ })
+      .catch((error ) => {
+          console.log(error);
+     });
+},
+methods : {
+     deleteUser() {
+      const id = localStorage.getItem('userId')
+     axios
+      .delete(`http://localhost:3000/api/user/${id}`, {
         headers: {
-          Authorization: 'Bearer' + localStorage.getItem('token')
+           Authorization: 'Bearer' + localStorage.getItem('token')
         }
       })
-      .then((response) => {
-          this.user = response.data[0];
+       .then((response) => {
+         console.log(response);
       })
       .catch((error) => {
           console.log(error)
       });
-  },
-
-    deleteUser() {
-      axios
-      .delete(`http://localhost:3000/api/user/${this.userId}`)
-      .then(() => {
-        localStorage.removeItem('userId');
-        alert('Votre compte a été désactivé');
-          this.$router.replace('/');
-        });
-    },
-  }
+      localStorage.clear()
+      alert('Votre compte a été désactivé');
+      this.$router.push( '/')
+     }   
+  } 
 }
 </script>
 
 
 <style scoped lang="scss">
-
 .profil {
     display: flex;
     justify-content: center;
@@ -84,6 +85,10 @@ export default {
     align-items: center;  
     .avatar__profil {
       margin: 10px;
+      border-radius: 50%;
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
     }
 }
 </style>

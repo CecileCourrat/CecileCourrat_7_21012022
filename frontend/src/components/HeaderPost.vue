@@ -54,13 +54,14 @@ export default {
 }
 
 .avatar {
+    border-radius: 50%;
     width: 60px;
     height: 60px;
     object-fit: cover;
 }
 
 .deconnexion {
-    height: 60px;
+    height: 63px;
     padding: -20px;
 }
 </style>

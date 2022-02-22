@@ -21,7 +21,6 @@ module.exports = (sequelize, Sequelize) => {
       Post.belongsTo(models.User, {
         foreignKey :{
             allowNull: false,
-            name: 'userId'
         }
       });
       Post.hasMany(models.Comment, {
