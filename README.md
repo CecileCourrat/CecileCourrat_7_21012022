@@ -7,9 +7,9 @@
 Après avoir cloné le projet, allez dans le dossier backend, puis dans le dossier config.
 Dans le fichier config.json changez dans l'objet développement votre nom d'utilisateur, votre mot de passe ainsi que le nom de votre base de données dans les parties suivantes :
 
-"username"
-"password"
-"database"
+-"username"
+-"password"
+-"database"
 
 ## Backend
 

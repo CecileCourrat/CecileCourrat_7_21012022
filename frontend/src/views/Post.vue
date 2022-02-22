@@ -60,6 +60,7 @@ export default {
         // fd.append('content', this.content);
         axios
         .post('http://localhost:3000/api/post', {
+          content: this.content,
            headers: {
           Authorization: 'Bearer' + localStorage.getItem('token')
         }
