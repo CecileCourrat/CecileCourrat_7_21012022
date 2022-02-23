@@ -14,17 +14,26 @@
       </div>
     </div>
     <p>Publications récentes</p>
-     <div class='fil__post'>
+     <div class='fil__post' >
         <div class='post'>
           <div class='post__details'>
            <div class='post__image'><img src='../assets/icon-avatar.png' class='avatar' alt='photo de profil'></div>
-            <div>Prénom Nom<br>
+            <div>{{ prenom }} {{ nom }}<br>
                  Publié le 00/00/0000
             </div>
            </div>
         </div>  
         <div class='comment'>
-            <div class='comment__post'>blablabla</div>
+            <div class='comment__post'>
+              
+              <p>{{ content }}</p>
+              <span>
+              
+              <i  @click="deletePost(postId)" class="fa fa-trash"></i>
+                <i class="fa fa-pencil"></i>
+                </span>
+             
+              </div>
               <div class='comment__icons'>
                 <i class='far fa-thumbs-up'></i><span>J'aime</span>
                 <i class="far fa-comment-alt"></i><span>Commenter</span>
@@ -34,6 +43,7 @@
               </div>
         </div>
       </div> 
+     
    </div>
 </template>
 
@@ -50,19 +60,38 @@ export default {
   data() {
     return {
      content: '',
-     image: '',
-     likes: ''
+     userId: localStorage.getItem('userId'),
+     postId: '',
+     prenom: '',
+     nom: '',
     }
   },
+  mounted () {
+    axios
+    .get(`http://localhost:3000/api/post/${this.postId}`, {
+       headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+   .then((response) => {
+        this.content = response.data.content;
+        this.prenom = response.data.prenom;
+        this.nom = response.data.nom;
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  },
+  
   methods: {
       createPost () {
-        // const fd = new FormData()
-        // fd.append('content', this.content);
+        const fd = new FormData();
+        fd.append('userId', this.userId);
+        fd.append('content', this.content);
         axios
-        .post('http://localhost:3000/api/post', {
-          content: this.content,
+        .post('http://localhost:3000/api/post', fd, {
            headers: {
-          Authorization: 'Bearer' + localStorage.getItem('token')
+          Authorization: 'Bearer ' + localStorage.getItem('token')
         }
         })
       .then((response) => {
@@ -70,9 +99,22 @@ export default {
       })
       .catch((error) => {
           console.log(error)
-    
       });
       }
+  },
+  deletePost (postId) {
+    axios
+    .delete(`http://localhost:3000/api/post/${postId}`,  {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+          })
+          .then((response) => {
+              console.log(response + 'Message supprimé');     
+          })
+          .catch((error) => {
+              console.log(error)
+          });
   }
 }
 </script>
@@ -142,6 +184,8 @@ p {
     width: 62%;
     .comment__post {
         margin: 10px;
+        display: flex;
+        justify-content: space-between;
     }
     i {
         padding : 10px;

@@ -32,7 +32,7 @@ export default {
   },
   data () {
        return {
-       mode: 'login',
+       mode: 'create',
        prenom: '',
        nom: '',
        email: '',
