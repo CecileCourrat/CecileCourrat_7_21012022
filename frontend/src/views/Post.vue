@@ -13,8 +13,7 @@
         </div>
       </div>
     </div>
-    <p>Publications récentes</p>
-     <div class='fil__post' >
+     <div class='fil__post'> 
         <div class='post'>
           <div class='post__details'>
            <div class='post__image'><img src='../assets/icon-avatar.png' class='avatar' alt='photo de profil'></div>
@@ -29,13 +28,13 @@
               <p>{{ content }}</p>
               <span>
               
-              <i  @click="deletePost(postId)" class="fa fa-trash"></i>
-                <i class="fa fa-pencil"></i>
+              <i  @click="deletePost()" class="fa fa-trash"></i>
+              <i  @click="modifyPost()" class="fa fa-pencil"></i>
                 </span>
              
               </div>
               <div class='comment__icons'>
-                <i class='far fa-thumbs-up'></i><span>J'aime</span>
+                <i class='far fa-thumbs-up' @click="like()"></i><span>J'aime</span>
                 <i class="far fa-comment-alt"></i><span>Commenter</span>
               </div>
               <div class='comment__button'>
@@ -43,7 +42,6 @@
               </div>
         </div>
       </div> 
-     
    </div>
 </template>
 
@@ -68,12 +66,13 @@ export default {
   },
   mounted () {
     axios
-    .get(`http://localhost:3000/api/post/${this.postId}`, {
+    .get('http://localhost:3000/api/post/', {
        headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
     })
    .then((response) => {
+        
         this.content = response.data.content;
         this.prenom = response.data.prenom;
         this.nom = response.data.nom;
@@ -102,9 +101,9 @@ export default {
       });
       }
   },
-  deletePost (postId) {
+  deletePost () {
     axios
-    .delete(`http://localhost:3000/api/post/${postId}`,  {
+    .delete(`http://localhost:3000/api/post/${this.post.id}`,  {
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem('token')
             }
@@ -115,8 +114,25 @@ export default {
           .catch((error) => {
               console.log(error)
           });
-  }
+  },
+  modifyPost () {
+     axios
+    .put(`http://localhost:3000/api/post/${this.post.id}`,  {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+          })
+          .then((response) => {
+              console.log(response + 'Message supprimé');     
+          })
+          .catch((error) => {
+              console.log(error)
+          });
+  },
 }
+
+
+
 </script>
 
 <style scoped lang="scss">
@@ -167,6 +183,7 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 10px;
 }
 
 .post {

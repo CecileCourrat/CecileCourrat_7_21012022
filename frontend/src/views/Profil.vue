@@ -3,9 +3,9 @@
     <HeaderPost/>
      <div class='profil'>
         <div class='page__profil'>
-            <img src='../assets/icon-avatar.png' class='avatar__profil' alt='photo de profil'>
-            <input type='file' name="image" id="image">
-            <button @click="uploadImage">Modifier la photo</button>
+            <img src="../assets/icon-avatar.png" class='avatar__profil' alt='photo de profil'>
+            <input type='file' name="image" id="image" @change="uploadImage">
+            <button>Modifier la photo</button>
            <div>
             <p>{{ prenom }} {{ nom }}</p>
             </div>
@@ -29,6 +29,7 @@ export default {
     return {
         prenom: '',
         nom: '',
+        image: ''
     }
  },
 mounted () {
@@ -38,38 +39,38 @@ mounted () {
      .then((response) => {
        this.prenom = response.data.prenom
        this.nom = response.data.nom
+       this.image = response.data.image
  })
       .catch((error ) => {
           console.log(error);
      });
 },
 methods : {
-      uploadImage() {
-        let img = document.getElementById('image').files[0]
-        //  const id = localStorage.getItem('userId')
-        // this.image = event.target.files[0];
-       const fd = new FormData()
-        fd.append('img', img);
-       axios.
-       post('http://localhost:3000/api/user/', fd,{
-          headers: {
-          // 'Content-Type': 'multipart/form-data',
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-         }
-        })
-        .then((response) => {
-          console.log(response);
-        })
-         .catch((error) => {
-           console.log(error)
-      });
-      },
+      // uploadImage(event) {
+      //   const id = localStorage.getItem('userId')
+      //   this.image = event.target.files[0];
+      //   const fd = new FormData()
+      //   fd.append('image', this.image);
+      //  axios.
+      //  put(`http://localhost:3000/api/user/${id}`, fd,{
+      //     headers: {
+      //      'Content-Type': 'multipart/form-data',
+      //       Authorization: 'Bearer ' + localStorage.getItem('token')
+      //    }
+      //   })
+      //   .then((response) => {
+      //     console.log(response);
+      //   })
+      //    .catch((error) => {
+      //      console.log(error)
+      // });
+      // },
      deleteUser() {
       const id = localStorage.getItem('userId')
      axios
       .delete(`http://localhost:3000/api/user/${id}`, {
         headers: {
-           Authorization: 'Bearer' + localStorage.getItem('token')
+           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       })
        .then((response) => {

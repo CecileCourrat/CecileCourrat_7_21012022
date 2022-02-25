@@ -15,7 +15,7 @@ exports.modifyComment = (req, res, next) => {
     db.Comment.findOne({ where: { id: req.params.id } })
     .then(() => {
       db.Comment.update({ ...req.body }, { where: { id: req.params.id } })
-      .then(comment => res.status(200).json({ message: 'Commentaire modifié' }))
+      .then(() => res.status(200).json({ message: 'Commentaire modifié' }))
       .catch(error => res.status(400).json({ error }))
   })
   .catch(error => res.status(500).json({ error }));
@@ -33,7 +33,6 @@ exports.deleteComment = (req, res, next) => {
 
 
 exports.getAllComment = (req, res, next) => {
-
     db.Comment.findAll({  
         order: [
             ['createdAt', 'DESC'],

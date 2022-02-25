@@ -13,7 +13,7 @@ exports.signup = (req, res, next) => {
               email: req.body.email,
               password: hash,
           })
-            .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+            .then(() => res.status(201).json({ message: 'Utilisateur créé' }))
             .catch(error => res.status(400).json({ error }));
           })
           .catch(error => res.status(500).json({ error }));     
@@ -23,12 +23,12 @@ exports.login = (req, res, next) => {
   db.User.findOne({ where : {email: req.body.email} })
       .then(user => {
         if (!user) {
-          return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+          return res.status(401).json({ error: 'Utilisateur non trouvé' });
         } 
         bcrypt.compare(req.body.password, user.password)
           .then(valid => {
             if (!valid) {
-              return res.status(401).json({ error: 'Mot de passe incorrect !' });
+              return res.status(401).json({ error: 'Mot de passe incorrect' });
             }
             res.status(200).json({
               userId: user.id,
@@ -43,60 +43,34 @@ exports.login = (req, res, next) => {
       .catch(error => res.status(500).json({ error }));
 };
 
+
 exports.getOneUser = (req, res, next) => {
   db.User.findOne({ where: {id: req.params.id} })
     .then(user => res.status(200).json(user))
     .catch(error => res.status(404).json({ error }));
 };
 
+
 exports.modifyUser = (req, res, next) => {
   const userId = req.body.userId;
   if (req.file) {
-    const imageUrl = `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`;
-    db.User.update({ image: imageUrl }, { where: { id: userId } });
+    const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    db.User.update({ image: image }, { where: { id: userId } });
   }
   db.User.update(
     { nom: req.body.nom, prenom: req.body.prenom },
     { where: { id: userId } }
   )
-    .then(() => res.status(200).json({ message: 'Profil modifié !'}))
+    .then(() => res.status(200).json({ message: 'Profil modifié'}))
     .catch((err) => res.status(400).json({ err }));
 };
   
-//   const userObject = req.file ?
-//   {
-//     ...JSON.parse(req.body.user),
-//     image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-//   } : { ...req.body };
-//   db.User.findOne({ where : {id: req.params.id} })
-//     .then((user) => {
-//       if(req.file == null) {
-//         db.User.update({ where: {id: req.params.id} },
-//           { ...userObject, id: req.params.id})
-//           .then(() => res.status(200).json({ message: 'Profil modifié !' }))
-//           .catch((error) => res.status(400).json({ error }));
-//     } else {
-//       const filename = user.image.split('/images/')[1];
-//       fs.unlink(`images/${filename}`, () => {
-//    db.User.update ({ where: {id: req.params.id} }, { ...userObject, id: req.params.id })
-//     .then(() =>res.status(200).json({ message: 'Profil modifié !'}))
-//     .catch(error => res.status(400).json({ error }));
-//     });
-//   }
-// })
-// };
 
 exports.deleteUser = (req, res, next) => {
-  // db.User.findOne({  where: { id: req.params.id } })
-  //   .then(user => {
-  //     const filename = user.imageUrl.split('/images/')[1];
-  //     fs.unlink(`images/${filename}`, () => {
         db.User.destroy( { where: { id: req.params.id } })
-        .then(() => res.status(200).json({ message: 'Compte supprimé !'}))
+        .then(() => res.status(200).json({ message: 'Compte supprimé' }))
         .catch(error => res.status(400).json({ error }));
-      };
+};
   
 
 

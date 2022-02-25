@@ -38,7 +38,7 @@ module.exports = (sequelize, Sequelize) => {
     User.hasMany(models.Like,{
         onDelete: 'cascade'
     });
-    };
+  };
     return User;
 };
  

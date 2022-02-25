@@ -8,7 +8,7 @@ exports.createPost = (req, res, next) => {
       //  image:  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         likes: 0,
     })
-      .then(() => res.status(201).json({ message: 'Publication créée !'}))
+      .then(() => res.status(201).json({ message: 'Publication créée'}))
       .catch(error => res.status(400).json({ error }));
 };
 
@@ -24,7 +24,7 @@ exports.modifyPost = (req, res, next) => {
        // const filename = post.image.split('/images/')[1];
        // fs.unlink(`images/${filename}`, () => {
      db.Post.update({ where : {id: req.params.id} })
-      .then(() =>res.status(200).json({ message: 'Publication modifiée !'}))
+      .then(() =>res.status(200).json({ message: 'Publication modifiée'}))
       .catch(error => res.status(400).json({ error }));
     //   });
  // })
@@ -34,7 +34,7 @@ exports.modifyPost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
         db.Post.destroy({ where: {id: req.params.id} })
         .then(() => {
-            res.status(200).json({ message: 'Publication supprimée !'});
+            res.status(200).json({ message: 'Publication supprimée'});
         })
      .catch(error => res.status(500).json({ error }));
 };
