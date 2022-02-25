@@ -54,8 +54,9 @@ exports.getOneUser = (req, res, next) => {
 exports.modifyUser = (req, res, next) => {
   const userId = req.body.userId;
   if (req.file) {
-    const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    db.User.update({ image: image }, { where: { id: userId } });
+  //   const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+  //   db.User.update({ image: image }, { where: { id: userId } });
+  // }
   }
   db.User.update(
     { nom: req.body.nom, prenom: req.body.prenom },

@@ -115,20 +115,20 @@ export default {
               console.log(error)
           });
   },
-  modifyPost () {
-     axios
-    .put(`http://localhost:3000/api/post/${this.post.id}`,  {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-          })
-          .then((response) => {
-              console.log(response + 'Message supprimé');     
-          })
-          .catch((error) => {
-              console.log(error)
-          });
-  },
+  // modifyPost () {
+  //    axios
+  //   .put(`http://localhost:3000/api/post/${this.post.id}`,  {
+  //           headers: {
+  //             Authorization: 'Bearer ' + localStorage.getItem('token')
+  //           }
+  //         })
+  //         .then((response) => {
+  //             console.log(response + 'Message supprimé');     
+  //         })
+  //         .catch((error) => {
+  //             console.log(error)
+  //         });
+  // },
 }
 
 

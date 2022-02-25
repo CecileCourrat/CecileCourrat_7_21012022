@@ -78,13 +78,17 @@ methods : {
       })
       .catch((error) => {
           console.log(error)
-      });
+       });
+     
       localStorage.clear()
       alert('Votre compte a été désactivé');
       this.$router.push( '/')
      }   
   } 
-}
+ }
+
+
+
 </script>
 
 
