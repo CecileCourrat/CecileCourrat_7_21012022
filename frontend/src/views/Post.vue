@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-     <div class='fil__post'> 
+     <div class="fil__post" v-for="post in posts" v-bind:key="post.id"> 
         <div class='post'>
           <div class='post__details'>
            <div class='post__image'><img src='../assets/icon-avatar.png' class='avatar' alt='photo de profil'></div>
@@ -62,20 +62,22 @@ export default {
      postId: '',
      prenom: '',
      nom: '',
+     posts: []
     }
   },
   mounted () {
     axios
     .get('http://localhost:3000/api/post/', {
        headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
+        Authorization: 'Bearer ' + localStorage.getItem('token')
       }
     })
    .then((response) => {
+     this.posts = response.data;
         
-        this.content = response.data.content;
-        this.prenom = response.data.prenom;
-        this.nom = response.data.nom;
+        // this.content = response.data.content;
+        // this.prenom = response.data.prenom;
+        // this.nom = response.data.nom;
     })
     .catch((error) => {
         console.log(error)

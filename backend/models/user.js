@@ -19,6 +19,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     image: {
       type: Sequelize.STRING,
+      defaultValue: 'http://localhost:3000/images/icon-avatar.png'
     },
     isAdmin: {
       type: Sequelize.BOOLEAN,

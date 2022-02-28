@@ -18,7 +18,6 @@ export default {
     name: 'HeaderPost',
     methods: {
         logout() {
-           // this.$store.commit('logout')
             this.$router.push('/');
         },
         profil() {
