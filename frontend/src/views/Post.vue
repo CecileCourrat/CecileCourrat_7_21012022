@@ -28,8 +28,8 @@
               <p>{{ content }}</p>
               <span>
               
-              <i  @click="deletePost()" class="fa fa-trash"></i>
-              <i  @click="modifyPost()" class="fa fa-pencil"></i>
+              <i  @click="deletePost" class="fa fa-trash"></i>
+              <i  @click="modifyPost" class="fa fa-pencil"></i>
                 </span>
              
               </div>

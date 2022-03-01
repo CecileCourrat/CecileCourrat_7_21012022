@@ -6,10 +6,10 @@
            <div>
             <p class="utilisateur">{{ prenom }} {{ nom }}</p>
             </div>
-            <img  src="../assets/icon-avatar.png" class="avatar__profil" alt="photo de profil">
+            <img  :src="image" class="avatar__profil" alt="photo de profil">
             <p>Modifier la photo de profil</p>
-            <input type="file" accept="image/*"  id="image" class="input__image">
-            <button @click="uploadImage($event)" class="modif__photo">Modifier la photo</button>
+            <input type="file" accept="image/*" name="image" id="image" class="input__image" v-on:change="uploadImage">
+            <button @click="showPhoto">Modifier la photo</button>
             <p class="desactivate" @click="deleteUser()">Désactiver mon compte</p>
         </div>
       </div>     
@@ -30,7 +30,7 @@ export default {
     return {
         prenom: '',
         nom: '',
-        image: ''
+        image: '',
     }
  },
 mounted () {
@@ -50,7 +50,7 @@ methods : {
         const id = localStorage.getItem('userId')
         this.image = event.target.files[0];
         const fd = new FormData()
-        fd.append('image', this.image);
+        fd.append('image', this.image)
         axios.
         put(`http://localhost:3000/api/user/${id}`, fd,{
            headers: {
@@ -59,12 +59,25 @@ methods : {
           }
          })
          .then((response) => {
-           console.log(response);
+            console.log(response);
         })
           .catch((error) => {
            console.log(error)
        });
        },
+
+      showPhoto() {
+        const id = localStorage.getItem('userId')
+     axios
+     .get(`http://localhost:3000/api/user/${id}`)
+     .then((response) => {
+        this.image = response.data.image
+ })
+      .catch((error ) => {
+          console.log(error);
+     });
+},
+      
      deleteUser() {
       const id = localStorage.getItem('userId')
      axios
@@ -86,9 +99,6 @@ methods : {
      }   
   } 
  }
-
-
-
 </script>
 
 

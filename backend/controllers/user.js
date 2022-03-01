@@ -52,14 +52,13 @@ exports.getOneUser = (req, res, next) => {
 
 
 exports.modifyUser = (req, res, next) => {
-  const userId = req.body.userId;
   if (req.file) {
     const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    db.User.update({ image: image }, { where: { id: userId } });
+    db.User.update({ image: image }, { where: { id: req.params.id } });
   }
   db.User.update(
     { nom: req.body.nom, prenom: req.body.prenom },
-    { where: { id: userId } }
+    { where: { id: req.params.id } }
   )
     .then(() => res.status(200).json({ message: 'Profil modifié'}))
     .catch((err) => res.status(400).json({ err }));
