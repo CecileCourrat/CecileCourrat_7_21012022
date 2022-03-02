@@ -1,12 +1,12 @@
 <template>
- <header class='header__post'> 
-    <img @click="accueil()" src='../assets/logo-copy.png' class='header__logo' alt='logo Groupomania'>
+ <header class="header__post"> 
+    <router-link to="/post"><img src="../assets/logo-copy.png" class="header__logo" alt="logo Groupomania"></router-link>
     <nav>
       <div class="image__profil">
-       <img @click="profil()" src="../assets/icon-avatar.png" class='avatar' alt="photo de profil">
+       <router-link to="/profil"><img :src="image" class="avatar" alt="photo de profil"></router-link>
       </div>
       <div class="image__deconnexion">
-       <img @click="logout()" src="../assets/icon-deconnexion.png" class='deconnexion' alt='icone deconnexion'>
+        <router-link to="/"><img src="../assets/icon-deconnexion.png" class="deconnexion" alt="icone deconnexion"></router-link>
       </div>
     </nav>
   </header>
@@ -14,19 +14,26 @@
 
 <script>
 
+import axios from 'axios';
+
 export default {
     name: 'HeaderPost',
-    methods: {
-        logout() {
-            this.$router.push('/');
-        },
-        profil() {
-            this.$router.push('/profil');
-        },
-        accueil() {
-            this.$router.push('/post');
-        }
+    data () {
+    return {
+        image: '',
     }
+ },
+mounted () {
+     const id = localStorage.getItem('userId')
+     axios
+     .get(`http://localhost:3000/api/user/${id}`)
+     .then((response) => {
+       this.image = response.data.image    
+ })
+      .catch((error ) => {
+          console.log(error);
+     });
+ }
 }
 </script>
 

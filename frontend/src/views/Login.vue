@@ -1,6 +1,8 @@
 <template>
  <div>
-  <Header/>
+  <header class="logo__image">
+     <img src="../assets/logo.png" alt="Logo Groupomania">
+  </header>
    <div class="authentification">
     <h1 v-if="mode == 'login' ">Connexion</h1>
     <h1 v-else>Inscription</h1>
@@ -21,15 +23,13 @@
 </template>
 
 <script>
-import Header from '../components/Header.vue';
+//import Header from '../components/Header.vue';
 import axios from 'axios';
 
 
 export default {
   name: 'login',
-  components: {
-    Header
-  },
+  
   data () {
        return {
        mode: 'create',
@@ -88,6 +88,12 @@ export default {
 
 
 <style scoped lang="scss">
+.logo__image {
+    text-align: center;
+    img {
+      width: 200px; 
+    }
+}
 .authentification {
   box-shadow: -1px 6px 18px 8px #d4d4d4;
   border-radius: 20px;

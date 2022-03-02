@@ -1,12 +1,12 @@
 <template>
  <div>
-    <HeaderPost/>
+   <HeaderPost/>
      <div class="profil">
         <div class="page__profil">
            <div>
             <p class="utilisateur">{{ prenom }} {{ nom }}</p>
             </div>
-            <img  :src="image" class="avatar__profil" alt="photo de profil">
+            <img :src="image" class="avatar__profil" alt="photo de profil">
             <p>Modifier la photo de profil</p>
             <input type="file" accept="image/*" name="image" id="image" class="input__image" v-on:change="uploadImage">
             <button @click="showPhoto">Modifier la photo</button>
@@ -40,6 +40,7 @@ mounted () {
      .then((response) => {
        this.prenom = response.data.prenom
        this.nom = response.data.nom
+       this.image = response.data.image    
  })
       .catch((error ) => {
           console.log(error);
@@ -139,8 +140,8 @@ methods : {
     .avatar__profil {
       margin: 10px;
       border-radius: 50%;
-      width: 90px;
-      height: 90px;
+      width: 100px;
+      height: 100px;
       object-fit: cover;
     }
 }
