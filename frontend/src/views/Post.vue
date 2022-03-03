@@ -1,9 +1,9 @@
 <template>
  <div>
-  <HeaderPost/>
+  <Header />
    <div class="accueil__post">
      <div class="publication">
-      <img src="../assets/icon-avatar.png" class="avatar" alt="photo de profil">
+      <img :src="image" class="avatar" alt="photo de profil"><span class="user"> {{ prenom }} {{ nom }}</span>
         <div class="publication__post">
             <input v-model="content" type="text" placeholder="Quoi de neuf ?">
           <div class="publication__boutons">
@@ -16,19 +16,19 @@
      <div class="fil__post" v-for="post in posts" v-bind:key="post.id"> 
         <div class='post'>
           <div class='post__details'>
-           <div class='post__image'><img src='../assets/icon-avatar.png' class='avatar' alt='photo de profil'></div>
-            <div>{{ prenom }} {{ nom }}<br>
-                 Publié le 00/00/0000
+           <div><img  class="post__image"  :src="post.User.image" alt='photo de profil'></div>
+            <div class="post__user">{{ post.User.prenom }} {{ post.User.nom }}<br>
+                 Publié le {{ postDate(post.createdAt)}}
             </div>
            </div>
         </div>  
         <div class='comment'>
             <div class='comment__post'>
               
-              <p>{{ content }}</p>
+              <p>{{ post.content }}</p>
               <span>
               
-              <i  @click="deletePost" class="fa fa-trash"></i>
+              <i  @click="deletePost(post.id)" class="fa fa-trash"></i>
               <i  @click="modifyPost" class="fa fa-pencil"></i>
                 </span>
              
@@ -46,26 +46,42 @@
 </template>
 
 <script>
-import HeaderPost from '../components/HeaderPost.vue';
-import axios from 'axios'
+import Header from '../components/Header.vue';
+import axios from 'axios';
+import moment from 'moment';
+
 
 
 export default { 
     name: 'Post',
     components: {
-    HeaderPost
+    Header,
   },
   data() {
     return {
      content: '',
-     userId: localStorage.getItem('userId'),
-     postId: '',
+     image: '',
+     user : {},
      prenom: '',
      nom: '',
+     userId: localStorage.getItem('userId'),
      posts: []
     }
   },
   mounted () {
+     const id = localStorage.getItem('userId')
+     axios
+     .get(`http://localhost:3000/api/user/${id}`)
+     .then((response) => {
+       this.prenom = response.data.prenom
+       this.nom = response.data.nom
+       this.image = response.data.image    
+ })
+      .catch((error ) => {
+          console.log(error);
+     });
+
+
     axios
     .get('http://localhost:3000/api/post/', {
        headers: {
@@ -73,11 +89,7 @@ export default {
       }
     })
    .then((response) => {
-     this.posts = response.data;
-        
-        // this.content = response.data.content;
-        // this.prenom = response.data.prenom;
-        // this.nom = response.data.nom;
+     this.posts = response.data.post;
     })
     .catch((error) => {
         console.log(error)
@@ -85,7 +97,26 @@ export default {
   },
   
   methods: {
-      createPost () {
+    postDate(date) {
+    return moment(date).format('DD/MM/YYYY hh:mm')
+  },
+
+  deletePost (id) {
+    axios
+    .delete(`http://localhost:3000/api/post/${id}`,  {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+          })
+          .then(() => {
+              window.location.reload();
+          })
+          .catch((error) => {
+              console.log(error)
+          });
+  },
+
+    createPost () {
         const fd = new FormData();
         fd.append('userId', this.userId);
         fd.append('content', this.content);
@@ -95,28 +126,19 @@ export default {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
         })
-      .then((response) => {
-          console.log(response);
+      .then(() => {
+          window.location.reload();
       })
       .catch((error) => {
           console.log(error)
       });
-      }
+    }
   },
-  deletePost () {
-    axios
-    .delete(`http://localhost:3000/api/post/${this.post.id}`,  {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-          })
-          .then((response) => {
-              console.log(response + 'Message supprimé');     
-          })
-          .catch((error) => {
-              console.log(error)
-          });
-  },
+  
+  
+
+
+  
   // modifyPost () {
   //    axios
   //   .put(`http://localhost:3000/api/post/${this.post.id}`,  {
@@ -145,13 +167,20 @@ export default {
 }
 .publication {
     border: 1px solid rgb(194, 194, 194);
-    width: 60%;
+    width: 50%;
     padding: 15px;
 }
 
 .avatar { 
+    width: 50px;
     height: 50px;
-    padding: 0 10px 2px 0;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: -5px;
+}
+
+.user {
+  padding: 12px;
 }
 
 .publication__post {
@@ -160,6 +189,7 @@ export default {
        padding: 15px;
        border-radius:20px;
        border: 1px solid rgb(194, 194, 194);
+       margin: 5px;
    }
    .publication__boutons {
        display: flex;
@@ -176,10 +206,7 @@ export default {
    }
 }
 
-p {
-    display: flex;
-    justify-content: center;
-}
+
 
 .fil__post {
     display: flex;
@@ -196,6 +223,18 @@ p {
 .post__details {
     display: flex;
     margin: 5px;
+}
+
+.post__image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 5px;
+}
+
+.post__user {
+  padding: 5px;
 }
 
 .comment {

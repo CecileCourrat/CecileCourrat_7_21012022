@@ -18,7 +18,7 @@ module.exports = (sequelize, Sequelize) => {
         foreignKey: {
           allowNull: false
         },
-        constraints: false
+       // constraints: false
       });
     };
     return Comment;

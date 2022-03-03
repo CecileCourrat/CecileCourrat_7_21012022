@@ -20,8 +20,7 @@ module.exports = (sequelize, Sequelize) => {
     Post.associate = models => {
       Post.belongsTo(models.User, {
         foreignKey : 'userId',
-        // foreignKey: {
-        //   allowNull: false }
+        onDelete: 'cascade',
       });
       Post.hasMany(models.Comment, {
         onDelete: 'cascade',

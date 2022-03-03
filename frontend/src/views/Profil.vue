@@ -1,6 +1,6 @@
 <template>
  <div>
-   <HeaderPost/>
+   <Header />
      <div class="profil">
         <div class="page__profil">
            <div>
@@ -18,13 +18,13 @@
 
 <script>
 import axios from 'axios';
-import HeaderPost from '../components/HeaderPost.vue';
+import Header from '../components/Header.vue';
 
 
 export default { 
     name: 'Profil',
     components: {
-    HeaderPost,
+    Header,
   },
   data () {
     return {
@@ -80,6 +80,7 @@ methods : {
 },
       
      deleteUser() {
+      if (confirm("Voulez vous vraiment désactiver votre compte") == true) {
       const id = localStorage.getItem('userId')
      axios
       .delete(`http://localhost:3000/api/user/${id}`, {
@@ -100,6 +101,7 @@ methods : {
      }   
   } 
  }
+}
 </script>
 
 

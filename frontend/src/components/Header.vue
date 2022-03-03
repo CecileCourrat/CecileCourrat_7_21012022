@@ -17,13 +17,13 @@
 import axios from 'axios';
 
 export default {
-    name: 'HeaderPost',
+    name: 'Header',
     data () {
     return {
         image: '',
     }
  },
-mounted () {
+ mounted()  {
      const id = localStorage.getItem('userId')
      axios
      .get(`http://localhost:3000/api/user/${id}`)
