@@ -1,15 +1,27 @@
 const db = require('../models');
 const fs = require('fs');
 
-exports.createPost = (req, res, next) => {
-    db.Post.create({
+exports.createPost = async (req, res, next) => {
+  if (req.file) {
+    const imagePost = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+    await db.Post.create({
         userId: req.body.userId,
         content: req.body.content,
-      //  image:  `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        image: imagePost,
         likes: 0,
+    });
+  } else {
+    await db.Post.create({
+      userId: req.body.userId,
+      content: req.body.content,
+      likes: 0,
     })
-      .then(() => res.status(201).json({ message: 'Publication créée'}))
-      .catch(error => res.status(400).json({ error }));
+  }
+  try {
+      res.status(201).json({ message: 'Publication créée'});
+  } catch {
+      (error => res.status(400).json({ error }));
+  }
 };
 
 

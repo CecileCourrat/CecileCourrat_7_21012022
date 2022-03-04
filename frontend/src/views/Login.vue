@@ -35,7 +35,7 @@ export default {
        prenom: '',
        nom: '',
        email: '',
-       password: ''
+       password: '',
       };
 },
   methods: {   
@@ -45,10 +45,8 @@ export default {
     switchToLogin() {
       this.mode = 'login';
     }, 
+    
     createAccount() {
-      if 
-        ( this.prenom !== null || this.nom !== null || this.email !== null || this.password !== null ) 
-      {
       const self = this;
       axios
       .post('http://localhost:3000/api/user/signup', {
@@ -63,7 +61,6 @@ export default {
       .catch(error => {
         console.log(error);
       });
-    }
   },
     login () {
       const self = this;
@@ -82,7 +79,7 @@ export default {
       });
     },
   }
-}  
+  } 
 </script>
 
 

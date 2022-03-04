@@ -7,31 +7,37 @@
         <div class="publication__post">
             <input v-model="content" type="text" placeholder="Quoi de neuf ?">
           <div class="publication__boutons">
-            <button>Ajouter un fichier</button>
+             <input type="file" accept="image/*" name="image" id="image" class="input__image" v-on:change="uploadImage">
             <button @click="createPost()">Publier</button>
           </div>
         </div>
       </div>
     </div>
      <div class="fil__post" v-for="post in posts" v-bind:key="post.id"> 
+       <div class="post__content">
         <div class='post'>
           <div class='post__details'>
-           <div><img  class="post__image"  :src="post.User.image" alt='photo de profil'></div>
-            <div class="post__user">{{ post.User.prenom }} {{ post.User.nom }}<br>
-                 Publié le {{ postDate(post.createdAt)}}
+           <div class="user__header"><img  class="post__image"  :src="post.User.image" alt='photo de profil'>
+             <p class="post__user">{{ post.User.prenom }} {{ post.User.nom }}<br>
+                 Publié le {{ postDate(post.createdAt)}}</p>
             </div>
+            <div>
+              <i  @click="deletePost(post.id)" class="fa fa-trash"></i>
+              <i  @click="modifyPost" class="fa fa-pencil"></i>
+              </div>
            </div>
         </div>  
         <div class='comment'>
             <div class='comment__post'>
-              
+              <div class="content__publi">
+               
               <p>{{ post.content }}</p>
-              <span>
               
-              <i  @click="deletePost(post.id)" class="fa fa-trash"></i>
-              <i  @click="modifyPost" class="fa fa-pencil"></i>
-                </span>
-             
+              
+              <div>
+              <img class="image__publi" :src="post.image">
+              </div>
+              </div>
               </div>
               <div class='comment__icons'>
                 <i class='far fa-thumbs-up' @click="like()"></i><span>J'aime</span>
@@ -39,6 +45,7 @@
               </div>
               <div class='comment__button'>
                <input class='button' type='text' placeholder='Ajouter votre commentaire'>
+              </div>
               </div>
         </div>
       </div> 
@@ -115,11 +122,16 @@ export default {
               console.log(error)
           });
   },
+   uploadImage(event) {
+        this.image = event.target.files[0];
+       
+       },
 
     createPost () {
         const fd = new FormData();
         fd.append('userId', this.userId);
         fd.append('content', this.content);
+        fd.append('image', this.image);
         axios
         .post('http://localhost:3000/api/post', fd, {
            headers: {
@@ -171,6 +183,10 @@ export default {
     padding: 15px;
 }
 
+.user__header {
+  display: flex;
+}
+
 .avatar { 
     width: 50px;
     height: 50px;
@@ -206,7 +222,12 @@ export default {
    }
 }
 
-
+.post__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+}
 
 .fil__post {
     display: flex;
@@ -222,7 +243,11 @@ export default {
 
 .post__details {
     display: flex;
+    justify-content: space-between;
     margin: 5px;
+    i {
+        padding : 10px;
+    }
 }
 
 .post__image {
@@ -230,7 +255,7 @@ export default {
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
-  margin: 5px;
+  margin: 10px;
 }
 
 .post__user {
@@ -248,6 +273,11 @@ export default {
     i {
         padding : 10px;
     }
+}
+
+.image__publi {
+  width: 100%;
+  object-fit: cover;
 }
 
 .button {
