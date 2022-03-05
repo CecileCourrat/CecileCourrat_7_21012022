@@ -277,6 +277,7 @@ export default {
 
 .image__publi {
   width: 100%;
+  max-height: 500px;
   object-fit: cover;
 }
 

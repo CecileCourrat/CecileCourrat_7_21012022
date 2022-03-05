@@ -7,12 +7,12 @@
     <h1 v-if="mode == 'login' ">Connexion</h1>
     <h1 v-else>Inscription</h1>
     <div class="form" v-if="mode == 'create'">
-      <input v-model="prenom" type="text" placeholder="Prénom" required>
-      <input v-model="nom" type="text" placeholder="Nom" required>
+      <input v-model="prenom" type="text" placeholder="Prénom">
+      <input v-model="nom" type="text" placeholder="Nom">
     </div>
     <div class="form">
-      <input v-model="email" type="email" placeholder="Adresse email" required>
-      <input v-model="password" type="password" placeholder="Mot de passe" required>
+      <input v-model="email" type="email" placeholder="Adresse email">
+      <input v-model="password" type="password" placeholder="Mot de passe">
       <button  @click="login()" v-if="mode == 'login'">Connexion</button>
       <button  @click="createAccount()" v-else>Inscription</button>
       <p v-if="mode == 'login' ">Vous n'avez pas encore de compte ? <span class="login" @click="switchToCreateAccount()">Créer un compte</span></p>

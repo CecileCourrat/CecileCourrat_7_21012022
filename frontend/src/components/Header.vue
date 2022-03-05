@@ -6,7 +6,7 @@
        <router-link to="/profil"><img :src="image" class="avatar" alt="photo de profil"></router-link>
       </div>
       <div class="image__deconnexion">
-        <router-link to="/"><img src="../assets/icon-deconnexion.png" class="deconnexion" alt="icone deconnexion"></router-link>
+        <img @click="logout()" src="../assets/icon-deconnexion.png" class="deconnexion" alt="icone deconnexion">
       </div>
     </nav>
   </header>
@@ -22,7 +22,9 @@ export default {
     return {
         image: '',
     }
- },
+},
+ 
+ 
  mounted()  {
      const id = localStorage.getItem('userId')
      axios
@@ -33,7 +35,13 @@ export default {
       .catch((error ) => {
           console.log(error);
      });
- }
+  },
+  methods: {
+     logout() {
+            localStorage.clear()
+            this.$router.push('/');
+        },
+  }
 }
 </script>
 

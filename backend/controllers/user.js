@@ -1,10 +1,23 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const passwordValidator = require('password-validator');
 const db = require('../models');
 const fs = require('fs');
 
+const schema = new passwordValidator();
+schema
+  .is().min(6)
+  .is().max(50)
+  .has().uppercase()
+  .has().lowercase()
+  .has().digits(1)
+
+
 
 exports.signup = (req, res, next) => {
+  if (!schema.validate(req.body.password)){
+    return res.status(401).json({message: 'Le mot de passe doit contenir au moins 6 caractères, un chiffre, une minuscule et une majuscule'});
+};
   bcrypt.hash(req.body.password, 10)
           .then(hash => {
             db.User.create ({
