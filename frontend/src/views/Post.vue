@@ -23,7 +23,7 @@
             </div>
             <div>
               <i  @click="deletePost(post.id)" class="fa fa-trash"></i>
-              <i  @click="modifyPost" class="fa fa-pencil"></i>
+              <i  @click="modifyPost(post.id)" class="fa fa-pencil"></i>
               </div>
            </div>
         </div>  
@@ -106,6 +106,21 @@ export default {
   methods: {
     postDate(date) {
     return moment(date).format('DD/MM/YYYY hh:mm')
+  },
+
+  modifyPost (id) {
+     axios
+    .put(`http://localhost:3000/api/post/${id}`,  {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+          })
+          .then(() => {
+              window.location.reload();
+          })
+          .catch((error) => {
+              console.log(error)
+          });
   },
 
   deletePost (id) {

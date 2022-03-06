@@ -13,6 +13,7 @@
     <div class="form">
       <input v-model="email" type="email" placeholder="Adresse email">
       <input v-model="password" type="password" placeholder="Mot de passe">
+       <p>{{ error }}</p>
       <button  @click="login()" v-if="mode == 'login'">Connexion</button>
       <button  @click="createAccount()" v-else>Inscription</button>
       <p v-if="mode == 'login' ">Vous n'avez pas encore de compte ? <span class="login" @click="switchToCreateAccount()">Créer un compte</span></p>
@@ -31,11 +32,15 @@ export default {
   
   data () {
        return {
-       mode: 'create',
+       mode: 'login',
        prenom: '',
        nom: '',
        email: '',
        password: '',
+       error: '',
+       userRegex: /^[-'a-zA-ZÀ-ÖØ-öø-ÿ\s]{2,}$/,
+       emailRegex: /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/,
+       passwordRegex:  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,50}$/
       };
 },
   methods: {   
@@ -47,6 +52,15 @@ export default {
     }, 
     
     createAccount() {
+      if (!this.userRegex.test(this.prenom)) {
+        return (this.error = 'Prénom non valide');
+        } else if (!this.userRegex.test(this.nom)) {
+        return (this.error = 'Nom non valide');
+        } else if (!this.emailRegex.test(this.email)) {
+        return (this.error = 'Email non valide');
+          } else if (!this.passwordRegex.test(this.password)) {
+        return (this.error = 'Votre mot de passe doit contenir au moins 6 caractères, un chiffre, une minuscule et une majuscule');
+        }
       const self = this;
       axios
       .post('http://localhost:3000/api/user/signup', {

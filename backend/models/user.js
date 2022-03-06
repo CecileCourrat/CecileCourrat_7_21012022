@@ -31,13 +31,13 @@ module.exports = (sequelize, Sequelize) => {
   );
   User.associate = models => {
     User.hasMany(models.Post,{
-          onDelete: 'cascade'
+         // onDelete: 'cascade'
       });
     User.hasMany(models.Comment,{
-          onDelete: 'cascade'
+         // onDelete: 'cascade'
       });
     User.hasMany(models.Like,{
-        onDelete: 'cascade'
+        //onDelete: 'cascade'
     });
   };
     return User;

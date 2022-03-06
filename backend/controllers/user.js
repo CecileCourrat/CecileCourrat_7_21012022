@@ -78,11 +78,18 @@ exports.modifyUser = (req, res, next) => {
 };
   
 
-exports.deleteUser = (req, res, next) => {
-        db.User.destroy( { where: { id: req.params.id } })
-        .then(() => res.status(200).json({ message: 'Compte supprimé' }))
+exports.deleteUser = async (req, res, next) => {
+  db.User.findOne ({ where: { id: req.params.id } })
+    .then((user) => {
+      db.User.destroy( { where: { id: req.params.id } })
+        // db.Post.destroy( { where: { id: req.params.id } })
+        // db.Comment.destroy( { where: { id: req.params.id } })
+        .then(() => res.status(200).json({ message: 'Compte désactivé' }))
         .catch(error => res.status(400).json({ error }));
-};
+      })
+      .catch (error => res.status(500).json({ error }));
+      };
+
   
 
 

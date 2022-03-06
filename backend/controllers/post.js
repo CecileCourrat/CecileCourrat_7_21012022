@@ -26,33 +26,36 @@ exports.createPost = async (req, res, next) => {
 
 
 exports.modifyPost = (req, res, next) => {
-    // const postObject = req.file ?
-    // {
-    //   ...JSON.parse(req.body.post),
-    //   image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    // } : { ...req.body };
-    // db.Post.findOne({ where: {id: req.params.id} })
-    //   .then(() => {
-       // const filename = post.image.split('/images/')[1];
-       // fs.unlink(`images/${filename}`, () => {
-     db.Post.update({ where : {id: req.params.id} })
-     .then(() =>res.status(200).json({ message: 'Publication modifiée'}))
-     .catch(error => res.status(400).json({ error }));
-   //   });
-// })
+  if (req.file) {
+    const imagePost = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    db.Post.update({ image: imagePost }, { where: { id: req.params.id } });
+  }
+  db.Post.update(
+    { content: req.body.content },
+    { where: { id: req.params.id } })
+    .then(() => res.status(200).json({ message: 'Publication modifiée' }))
+    .catch((error) => res.status(400).json({ error }));
+};
+   
+  
+
+exports.deletePost = async (req, res, next) => {
+  db.Post.findOne({ where: { id: req.params.id } })
+    .then((post) => {
+      if (post.image) {
+        const filename = post.image.split('/images/')[1];
+        fs.unlink(`images/${filename}`, () => {
+          db.Post.destroy({ where: { id: req.params.id} });
+        });
+      } else {
+         db.Post.destroy({ where: { id: req.params.id} });
+      }
+    })
+    .then(() => res.status(200).json({ message: 'Publication supprimée' }))
+    .catch((error) => res.status(400).json({ error }));
 };
 
-
-exports.deletePost = (req, res, next) => {
-        db.Post.destroy({ where: {id: req.params.id} })
-        .then(() => {
-            res.status(200).json({ message: 'Publication supprimée'});
-        })
-        .catch(error => res.status(500).json({ error }));
-
-}
-
-   
+       
     
 exports.getAllPost = (req, res, next) => {
     db.Post.findAll({
