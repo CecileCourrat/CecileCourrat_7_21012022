@@ -2,8 +2,8 @@ const db = require('../models');
 
 exports.createComment = (req, res, next) => {
     db.Comment.create({
-        UserId: req.body.userId,
-        PostId: req.body.postId,
+        userId: req.body.userId,
+        postId: req.body.postId,
         textComment: req.body.textComment,
     })
       .then(() => res.status(201).json({ message: 'Commentaire créé'}))
@@ -39,6 +39,22 @@ exports.getAllComment = (req, res, next) => {
         ],
         include: [{model: db.User}]
    })
+    .then((comments) => {
+        res.status(200).json(comments);
+    })
+    .catch((error) => {
+        res.status(404).json({ error });
+    });
+};
+
+exports.getAllComments = (req, res, next) => {
+    db.Comment.findAll({
+        where: { PostId: req.params.postId },
+        order: [
+            ['createdAt', 'DESC'],
+        ],
+        include: [{model: db.User}]
+    })
     .then((comments) => {
         res.status(200).json(comments);
     })

@@ -31,13 +31,15 @@ module.exports = (sequelize, Sequelize) => {
   );
   User.associate = models => {
     User.hasMany(models.Post,{
-         // onDelete: 'cascade'
+         foreignKey : 'userId',
+          onDelete: 'cascade'
       });
     User.hasMany(models.Comment,{
-         // onDelete: 'cascade'
+         foreignKey : 'userId',
+          onDelete: 'cascade'
       });
     User.hasMany(models.Like,{
-        //onDelete: 'cascade'
+        onDelete: 'cascade'
     });
   };
     return User;

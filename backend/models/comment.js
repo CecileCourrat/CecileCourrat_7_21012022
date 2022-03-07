@@ -11,14 +11,12 @@ module.exports = (sequelize, Sequelize) => {
     );
     Comment.associate = models => {
       Comment.belongsTo(models.User, {
-        foreignKey: {
-          allowNull: false
-        }});
+        foreignKey: 'userId',
+        onDelete: 'cascade'
+        });
       Comment.belongsTo(models.Post, {
-        foreignKey: {
-          allowNull: false
-        },
-       // constraints: false
+        foreignKey: 'postId',
+        onDelete: 'cascade'
       });
     };
     return Comment;

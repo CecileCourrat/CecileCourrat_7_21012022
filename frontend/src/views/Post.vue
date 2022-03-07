@@ -22,7 +22,7 @@
                  Publié le {{ postDate(post.createdAt)}}</p>
             </div>
             <div>
-              <i  @click="deletePost(post.id)" class="fa fa-trash"></i>
+              <i  @click="deletePost(post.id)"  class="fa fa-trash"></i>
               <i  @click="modifyPost(post.id)" class="fa fa-pencil"></i>
               </div>
            </div>
@@ -41,12 +41,22 @@
               </div>
               <div class='comment__icons'>
                 <i class='far fa-thumbs-up' @click="like()"></i><span>J'aime</span>
-                <i class="far fa-comment-alt"></i><span>Commenter</span>
+               <!-- <i class="far fa-comment-alt"></i><span>Commenter</span>-->
+                <Comment />
+                <div class="commentaires"> 
+                   <div class="comment__user">
+                     <img src=""  alt="photo de profil" class="comment__image">
+                    <div class="comment__details">
+                      <p class="comment__nom">Roy Trenneman <i  class="fa fa-trash"></i></p>
+                   <p>Super ton post dis donc !</p>
+                   
+                   
+                    </div>
+                    </div>
+                    
               </div>
-              <div class='comment__button'>
-               <input class='button' type='text' placeholder='Ajouter votre commentaire'>
-              </div>
-              </div>
+            </div>
+            </div>
         </div>
       </div> 
    </div>
@@ -54,6 +64,7 @@
 
 <script>
 import Header from '../components/Header.vue';
+import Comment from '../components/Comment.vue';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -63,6 +74,7 @@ export default {
     name: 'Post',
     components: {
     Header,
+    Comment
   },
   data() {
     return {
@@ -72,7 +84,8 @@ export default {
      prenom: '',
      nom: '',
      userId: localStorage.getItem('userId'),
-     posts: []
+     posts: [],
+     comments: []
     }
   },
   mounted () {
@@ -101,11 +114,24 @@ export default {
     .catch((error) => {
         console.log(error)
     });
+
+    axios
+    .get(`http://localhost:3000/api/comment/${id}`, {
+       headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+   .then((response) => {
+     this.comments = response.data.comment;
+    })
+    .catch((error) => {
+        console.log(error)
+    });
   },
   
   methods: {
     postDate(date) {
-    return moment(date).format('DD/MM/YYYY hh:mm')
+    return moment(date).format('DD/MM/YYYY à hh:mm')
   },
 
   modifyPost (id) {
@@ -212,6 +238,7 @@ export default {
 
 .user {
   padding: 12px;
+  font-weight: bold;
 }
 
 .publication__post {
@@ -303,4 +330,26 @@ export default {
     border: 1px solid rgb(194, 194, 194);
     width: 50%
 }
+
+.comment__nom {
+  text-decoration: underline;
+  i {
+    padding-left:25px;
+  }
+}
+
+.comment__user {
+   display: flex;
+
+}
+
+.comment__image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 15px;
+}
+
+
 </style>

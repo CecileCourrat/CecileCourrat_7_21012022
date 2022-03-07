@@ -25,12 +25,12 @@ export default {
 },
  
  
- mounted()  {
+mounted()  {
      const id = localStorage.getItem('userId')
      axios
      .get(`http://localhost:3000/api/user/${id}`)
      .then((response) => {
-       this.image = response.data.image    
+       this.image = response.data.image  
  })
       .catch((error ) => {
           console.log(error);

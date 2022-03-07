@@ -13,7 +13,7 @@
     <div class="form">
       <input v-model="email" type="email" placeholder="Adresse email">
       <input v-model="password" type="password" placeholder="Mot de passe">
-       <p>{{ error }}</p>
+       <p class="error__msg">{{ error }}</p>
       <button  @click="login()" v-if="mode == 'login'">Connexion</button>
       <button  @click="createAccount()" v-else>Inscription</button>
       <p v-if="mode == 'login' ">Vous n'avez pas encore de compte ? <span class="login" @click="switchToCreateAccount()">Créer un compte</span></p>
@@ -38,11 +38,13 @@ export default {
        email: '',
        password: '',
        error: '',
-       userRegex: /^[-'a-zA-ZÀ-ÖØ-öø-ÿ\s]{2,}$/,
+       userRegex: /^[-'a-zA-ZÀ-ÖØ-öø-ÿ\s]{3,}$/,
        emailRegex: /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/,
        passwordRegex:  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,50}$/
       };
 },
+
+
   methods: {   
     switchToCreateAccount() {
       this.mode = 'create';
@@ -137,5 +139,9 @@ export default {
     .login {
      text-decoration:underline;
     }
+}
+
+.error__msg {
+  text-align: center;
 }
 </style>

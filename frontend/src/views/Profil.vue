@@ -8,7 +8,7 @@
             </div>
             <img :src="image" class="avatar__profil" alt="photo de profil">
             <p>Modifier la photo de profil</p>
-            <input type="file" accept="image/*" name="image" id="image" class="input__image" v-on:change="uploadImage">
+            <input type="file" accept="image/*" name="imageUser" id="imageUser" class="input__image" v-on:change="uploadImage">
             <button @click="showPhoto">Modifier la photo</button>
             <p class="desactivate" @click="deleteUser()">Désactiver mon compte</p>
         </div>
@@ -40,7 +40,7 @@ mounted () {
      .then((response) => {
        this.prenom = response.data.prenom
        this.nom = response.data.nom
-       this.image = response.data.image    
+       this.image = response.data.image  
  })
       .catch((error ) => {
           console.log(error);
@@ -73,6 +73,7 @@ methods : {
      .get(`http://localhost:3000/api/user/${id}`)
      .then((response) => {
         this.image = response.data.image
+        window.location.reload();
  })
       .catch((error ) => {
           console.log(error);
