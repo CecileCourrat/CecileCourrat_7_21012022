@@ -1,7 +1,7 @@
 <template>
     <div class="comment__button">
         <input v-model="content" class="button" type="text" placeholder="Ajouter votre commentaire">
-         <button @click="createComment()">Commenter</button>
+         <button @click="createComment(post.id)">Commenter</button>
     </div>
 </template>
 
@@ -13,15 +13,19 @@ export default {
     name: 'Commentaire',
     data () {
         return {
-            content: ''
+            content: '',
+            userId: localStorage.getItem('userId')
         }
     },
+    
     methods : {
         createComment () {
         axios
-        .post('http://localhost:3000/api/comment', {
-            textComment: this.content },
-            {
+        .post('http://localhost:3000/api/comment/', {
+            textComment: this.comment, 
+            userId: this.userId,}, {
+            
+        
            headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }

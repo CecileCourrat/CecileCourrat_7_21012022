@@ -22,34 +22,33 @@
                  Publié le {{ postDate(post.createdAt)}}</p>
             </div>
             <div>
-              <i  @click="deletePost(post.id)"  class="fa fa-trash"></i>
-              <i  @click="modifyPost(post.id)" class="fa fa-pencil"></i>
+              <i v-if="post.userId == userId || user.isAdmin === true" @click="deletePost(post.id)"  class="fa fa-trash"></i>
+           
               </div>
            </div>
         </div>  
         <div class='comment'>
             <div class='comment__post'>
               <div class="content__publi">
-               
               <p>{{ post.content }}</p>
-              
-              
               <div>
               <img class="image__publi" :src="post.image">
               </div>
               </div>
               </div>
               <div class='comment__icons'>
-                <i class='far fa-thumbs-up' @click="like()"></i><span>J'aime</span>
+                <i class='far fa-thumbs-up' @click="like(post.id)"></i><span>J'aime</span>
                <!-- <i class="far fa-comment-alt"></i><span>Commenter</span>-->
-                <Comment />
-                <div class="commentaires"> 
+                <div class="comment__button">
+                 <input v-model="comment" class="button" type="text" placeholder="Ajouter votre commentaire">
+                 <button @click="createComment()">Commenter</button>
+               </div>
+                <div class="commentaires" v-for="comment in comments" v-bind:key="comment.id"> 
                    <div class="comment__user">
-                     <img src=""  alt="photo de profil" class="comment__image">
+                     <img  alt="photo de profil" class="comment__image">
                     <div class="comment__details">
-                      <p class="comment__nom">Roy Trenneman <i  class="fa fa-trash"></i></p>
-                   <p>Super ton post dis donc !</p>
-                   
+                      <p class="comment__nom">{{ comment.User.prenom }}<i  class="fa fa-trash"></i></p>
+                   <p>{{ comment.comment }}</p>
                    
                     </div>
                     </div>
@@ -64,7 +63,7 @@
 
 <script>
 import Header from '../components/Header.vue';
-import Comment from '../components/Comment.vue';
+//import Comment from '../components/Comment.vue';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -74,7 +73,7 @@ export default {
     name: 'Post',
     components: {
     Header,
-    Comment
+    //Comment
   },
   data() {
     return {
@@ -85,7 +84,9 @@ export default {
      nom: '',
      userId: localStorage.getItem('userId'),
      posts: [],
-     comments: []
+     comments: [],
+     comment: '',
+     isAdmin: ''
     }
   },
   mounted () {
@@ -116,7 +117,7 @@ export default {
     });
 
     axios
-    .get(`http://localhost:3000/api/comment/${id}`, {
+    .get('http://localhost:3000/api/comment/', {
        headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
@@ -132,6 +133,39 @@ export default {
   methods: {
     postDate(date) {
     return moment(date).format('DD/MM/YYYY à hh:mm')
+  },
+
+   createComment () {
+        axios
+        .post('http://localhost:3000/api/comment/', {
+            textComment: this.comment, 
+            userId: this.userId,},
+            {
+            headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+         }
+        })
+      .then(() => {
+          window.location.reload();
+      })
+      .catch((error) => {
+          console.log(error)
+      });
+  },
+
+
+  like(id) {
+     axios.post(`http://localhost:3000/api/like/${id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+     })
+     .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error)
+        });
   },
 
   modifyPost (id) {
@@ -186,26 +220,7 @@ export default {
           console.log(error)
       });
     }
-  },
-  
-  
-
-
-  
-  // modifyPost () {
-  //    axios
-  //   .put(`http://localhost:3000/api/post/${this.post.id}`,  {
-  //           headers: {
-  //             Authorization: 'Bearer ' + localStorage.getItem('token')
-  //           }
-  //         })
-  //         .then((response) => {
-  //             console.log(response + 'Message supprimé');     
-  //         })
-  //         .catch((error) => {
-  //             console.log(error)
-  //         });
-  // },
+  }, 
 }
 
 
@@ -349,6 +364,28 @@ export default {
   border-radius: 50%;
   object-fit: cover;
   margin: 15px;
+}
+
+.button {
+    margin: 5px;
+    padding: 15px;
+    border-radius: 20px;
+    border: 1px solid rgb(194, 194, 194);
+    width: 50%
+}
+
+.comment__button {
+       display: flex;
+       justify-content: space-evenly;
+   }
+   button {
+       border-radius: 20px;
+       border:none;
+       width: 40%;
+       padding: 15px;
+       margin: 5px;
+       box-shadow: 5px 5px 10px #d4d4d4;
+       font-weight: bold;
 }
 
 

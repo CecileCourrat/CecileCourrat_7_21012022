@@ -4,7 +4,6 @@ import Post from '../views/Post.vue'
 import Profil from '../views/Profil.vue'
 
 
-
 const routes = [
   {
     path: '/',

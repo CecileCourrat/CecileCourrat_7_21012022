@@ -6,7 +6,7 @@
 #app {
   font-family: "Roboto", sans-serif;
   margin: 0;
-h1 {
+  h1 {
   font-size: 30px;
  }
 }

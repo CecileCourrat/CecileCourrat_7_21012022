@@ -47,11 +47,11 @@ exports.getAllComment = (req, res, next) => {
     });
 };
 
-exports.getAllComments = (req, res, next) => {
+exports.getAllCommentsOfOnePost = (req, res, next) => {
     db.Comment.findAll({
         where: { PostId: req.params.postId },
         order: [
-            ['createdAt', 'DESC'],
+            ['createdAt', 'ASC'],
         ],
         include: [{model: db.User}]
     })
