@@ -22,7 +22,7 @@
                  Publié le {{ postDate(post.createdAt)}}</p>
             </div>
             <div>
-              <i v-if="post.userId == userId || user.isAdmin === true" @click="deletePost(post.id)"  class="fa fa-trash"></i>
+              <i v-if="post.userId == userId || isAdmin == true" @click="deletePost(post.id)"  class="fa fa-trash"></i>
            
               </div>
            </div>
@@ -37,7 +37,7 @@
               </div>
               </div>
               <div class='comment__icons'>
-                <i class='far fa-thumbs-up' @click="like(post.id)"></i><span>J'aime</span>
+                <i class='far fa-thumbs-up' @click="like(post.id)"></i><span>{{likes}} J'aime</span>
                <!-- <i class="far fa-comment-alt"></i><span>Commenter</span>-->
                 <div class="comment__button">
                  <input v-model="comment" class="button" type="text" placeholder="Ajouter votre commentaire">
@@ -45,11 +45,10 @@
                </div>
                 <div class="commentaires" v-for="comment in comments" v-bind:key="comment.id"> 
                    <div class="comment__user">
-                     <img  alt="photo de profil" class="comment__image">
+                     <img  :src="comment.User.image" alt="photo de profil" class="comment__image">
                     <div class="comment__details">
-                      <p class="comment__nom">{{ comment.User.prenom }}<i  class="fa fa-trash"></i></p>
+                      <p class="comment__nom">{{ comment.User.prenom }} {{ comment.User.nom }}<i  class="fa fa-trash"></i></p>
                    <p>{{ comment.comment }}</p>
-                   
                     </div>
                     </div>
                     
@@ -75,6 +74,7 @@ export default {
     Header,
     //Comment
   },
+  
   data() {
     return {
      content: '',
@@ -86,7 +86,8 @@ export default {
      posts: [],
      comments: [],
      comment: '',
-     isAdmin: ''
+     isAdmin: '',
+     likes : ''
     }
   },
   mounted () {
@@ -117,7 +118,7 @@ export default {
     });
 
     axios
-    .get('http://localhost:3000/api/comment/', {
+    .get(`http://localhost:3000/api/comment/14`, {
        headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
@@ -129,8 +130,11 @@ export default {
         console.log(error)
     });
   },
+
+ 
   
   methods: {
+  
     postDate(date) {
     return moment(date).format('DD/MM/YYYY à hh:mm')
   },
@@ -154,14 +158,17 @@ export default {
   },
 
 
-  like(id) {
-     axios.post(`http://localhost:3000/api/like/${id}`, {
+  like() {
+     axios.post('http://localhost:3000/api/like/',{
+       userId: this.userId,
+       },
+       {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
      })
      .then((response) => {
-          console.log(response);
+        console.log(response)
         })
         .catch((error) => {
           console.log(error)

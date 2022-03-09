@@ -6,19 +6,19 @@
    <div class="authentification">
     <h1 v-if="mode == 'login' ">Connexion</h1>
     <h1 v-else>Inscription</h1>
-    <div class="form" v-if="mode == 'create'">
+     <div class="form" v-if="mode == 'create'">
       <input v-model="prenom" type="text" placeholder="Prénom">
       <input v-model="nom" type="text" placeholder="Nom">
-    </div>
-    <div class="form">
+     </div>
+     <div class="form">
       <input v-model="email" type="email" placeholder="Adresse email">
       <input v-model="password" type="password" placeholder="Mot de passe">
        <p class="error__msg">{{ error }}</p>
-      <button  @click="login()" v-if="mode == 'login'">Connexion</button>
-      <button  @click="createAccount()" v-else>Inscription</button>
+      <button @click="login()" v-if="mode == 'login'">Connexion</button>
+      <button @click="createAccount()" v-else>Inscription</button>
       <p v-if="mode == 'login' ">Vous n'avez pas encore de compte ? <span class="login" @click="switchToCreateAccount()">Créer un compte</span></p>
-      <p v-else>Vous avez déjà un compte ? <span class="login"  @click="switchToLogin()">Se connecter</span></p>
-    </div>
+      <p v-else>Vous avez déjà un compte ? <span class="login" @click="switchToLogin()">Se connecter</span></p>
+     </div>
     </div>
   </div>
 </template>
@@ -29,7 +29,6 @@ import axios from 'axios';
 
 export default {
   name: 'login',
-  
   data () {
        return {
        mode: 'login',
@@ -44,15 +43,13 @@ export default {
       };
 },
 
-
-  methods: {   
+methods: {   
     switchToCreateAccount() {
       this.mode = 'create';
     },
     switchToLogin() {
       this.mode = 'login';
     }, 
-    
     createAccount() {
       if (!this.userRegex.test(this.prenom)) {
         return (this.error = 'Prénom non valide');
@@ -60,12 +57,11 @@ export default {
         return (this.error = 'Nom non valide');
         } else if (!this.emailRegex.test(this.email)) {
         return (this.error = 'Email non valide');
-          } else if (!this.passwordRegex.test(this.password)) {
+        } else if (!this.passwordRegex.test(this.password)) {
         return (this.error = 'Votre mot de passe doit contenir au moins 6 caractères, un chiffre, une minuscule et une majuscule');
         }
       const self = this;
-      axios
-      .post('http://localhost:3000/api/user/signup', {
+      axios.post('http://localhost:3000/api/user/signup', {
         prenom: this.prenom,
         nom: this.nom,
         email: this.email,
@@ -80,8 +76,7 @@ export default {
   },
     login () {
       const self = this;
-      axios
-      .post('http://localhost:3000/api/user/login', {
+      axios.post('http://localhost:3000/api/user/login', {
         email: this.email,
         password: this.password,
       })
@@ -95,7 +90,7 @@ export default {
       });
     },
   }
-  } 
+} 
 </script>
 
 
@@ -106,11 +101,12 @@ export default {
       width: 200px; 
     }
 }
+
 .authentification {
   box-shadow: -1px 6px 18px 8px #d4d4d4;
   border-radius: 20px;
   width: 400px;
-  @media screen and (max-width: 430px) {
+  @media screen and (max-width: 500px) {
     width: 250px;
   }
   display: flex;
@@ -139,9 +135,8 @@ export default {
     .login {
      text-decoration:underline;
     }
-}
-
-.error__msg {
-  text-align: center;
+    .error__msg {
+     text-align: center;
+   }
 }
 </style>

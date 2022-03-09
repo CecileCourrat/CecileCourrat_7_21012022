@@ -5,11 +5,12 @@
         <div class="page__profil">
            <div>
             <p class="utilisateur">{{ prenom }} {{ nom }}</p>
+            <p>{{ isAdmin }}</p>
             </div>
             <img :src="image" class="avatar__profil" alt="photo de profil">
-            <p>Modifier la photo de profil</p>
-            <input type="file" accept="image/*" name="imageUser" id="imageUser" class="input__image" v-on:change="uploadImage">
-            <button @click="showPhoto">Modifier la photo</button>
+            <label for="file" class="label__file">Modifier la photo de profil</label>
+            <input type="file" accept="image/*" id="file" class="input__image" v-on:change="uploadImage">
+          <!--  <button @click="showPhoto">Modifier la photo</button>-->
             <p class="desactivate" @click="deleteUser()">Désactiver mon compte</p>
         </div>
       </div>     
@@ -31,6 +32,7 @@ export default {
         prenom: '',
         nom: '',
         image: '',
+        isAdmin: ''
     }
  },
 mounted () {
@@ -60,6 +62,8 @@ methods : {
           }
          })
          .then((response) => {
+           this.image = response.data.image
+           window.location.reload();
             console.log(response);
         })
           .catch((error) => {
@@ -67,18 +71,18 @@ methods : {
        });
        },
 
-      showPhoto() {
-        const id = localStorage.getItem('userId')
-     axios
-     .get(`http://localhost:3000/api/user/${id}`)
-     .then((response) => {
-        this.image = response.data.image
-        window.location.reload();
- })
-      .catch((error ) => {
-          console.log(error);
-     });
-},
+//       showPhoto() {
+//         const id = localStorage.getItem('userId')
+//      axios
+//      .get(`http://localhost:3000/api/user/${id}`)
+//      .then((response) => {
+//         this.image = response.data.image
+//         window.location.reload();
+//  })
+//       .catch((error ) => {
+//           console.log(error);
+//      });
+// },
       
      deleteUser() {
       if (confirm("Voulez vous vraiment désactiver votre compte") == true) {
@@ -118,6 +122,23 @@ methods : {
     }
 } 
 
+.label__file {
+  cursor: pointer;
+  padding: 10px;
+  @media screen and ( max-width: 440px ) {
+    text-align: center;
+  }
+  &:hover {
+    color: #ada9a9;
+  }
+}
+
+
+
+.input__image {
+  display: none;
+}
+
 .utilisateur {
   font-weight: bold;
   font-size: 20px;
@@ -131,6 +152,12 @@ methods : {
 .desactivate {
   cursor: pointer;
   padding: 50px;
+  @media screen and ( max-width: 560px ) {
+    text-align: center;
+  }
+  &:hover {
+    color: rgb(236, 181, 181);
+  }
 }
 
 .page__profil {
@@ -140,6 +167,9 @@ methods : {
     display: flex;
     flex-direction: column;
     align-items: center;  
+    @media screen and ( max-width: 550px ) {
+    width: 80%;
+    }
     .avatar__profil {
       margin: 10px;
       border-radius: 50%;

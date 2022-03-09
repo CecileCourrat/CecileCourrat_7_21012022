@@ -5,6 +5,7 @@ const likeCtrl = require('../controllers/like');
 
 const auth = require('../middleware/auth');
 
-router.post('/', likeCtrl.likePost);
+router.post('/', likeCtrl.likeAPost);
+
 
 module.exports = router;

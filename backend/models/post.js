@@ -26,6 +26,10 @@ module.exports = (sequelize, Sequelize) => {
         foreignKey : 'userId',
         onDelete: 'cascade',
       });
+      Post.hasMany(models.Like,{
+       //foreignKey: 'userId',
+       // onDelete: 'cascade'
+    });
     };
     return Post;
 };

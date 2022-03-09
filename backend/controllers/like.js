@@ -1,19 +1,30 @@
 const db = require('../models');
 
-exports.likePost = (req, res) => {
- db.Like.findOne({
-    where: { userId: req.body.userId, postId: req.params.id },
-  })
-    .then((existingLike) => {
-      if (existingLike) {
-        existingLike.destroy();
-        res.status(200).json({ like: false });
-      } else {
-        db.Like.create({ userId: res.body.userId, postId: req.params.id });
-        res.status(201).json({ like: true });
-      }
+exports.likeAPost = async (req, res) => {
+  const  PostId  = req.body.postId;
+  const UserId = req.body.userId;
+  const exist = await db.Like.findOne({
+    where: { PostId: PostId, UserId: UserId },
+  });
+  if (!exist) {
+    await db.Like.create({ PostId: PostId, UserId: UserId })
+      .then(() => {
+        res.status(201).json({ message: 'Like ajouté' });
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
+  } else {
+    await db.Like.destroy({
+      where: { PostId: PostId, UserId: UserId },
     })
-    .catch((error) => res.status(404).json({ error }));
+      .then(() => {
+        res.status(201).json({ message: 'Like supprimé' });
+      })
+      .catch((error) => {
+        res.status(400).json({ error });
+      });
+  }
 };
 
-   
+

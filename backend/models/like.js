@@ -6,14 +6,12 @@ module.exports = (sequelize, Sequelize) => {
     );
     Like.associate = models => {
       Like.belongsTo(models.User, {
-        foreignKey: {
-          allowNull: false
-        }});
+        foreignKey: 'userId',
+        onDelete: 'cascade',
+        });
       Like.belongsTo(models.Post, {
-        foreignKey: {
-          allowNull: false
-        },
-       // constraints: false
+        foreignKey: 'userId',
+        onDelete: 'cascade',
       });
     };
     return Like;
