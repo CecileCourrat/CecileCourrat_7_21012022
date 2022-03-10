@@ -7,7 +7,10 @@
         <div class="publication__post">
             <input v-model="content" type="text" placeholder="Quoi de neuf ?">
           <div class="publication__boutons">
-             <input type="file" accept="image/*" name="image" id="image" class="input__image" v-on:change="uploadImage">
+            <label for="file" class="label__publi">Ajouter un fichier</label>
+            
+             <input type="file" accept="image/*" id="file" class="input__image" v-on:change="uploadImage">
+            <!-- <input type="file" accept="image/*" name="image" id="image" class="input__image" v-on:change="uploadImage">-->
             <button @click="createPost()">Publier</button>
           </div>
         </div>
@@ -22,7 +25,7 @@
                  Publié le {{ postDate(post.createdAt)}}</p>
             </div>
             <div>
-              <i v-if="post.userId == userId || isAdmin == true" @click="deletePost(post.id)"  class="fa fa-trash"></i>
+              <i v-if="post.userId == userId || isAdmin == true " @click="deletePost(post.id)"  class="fa fa-trash"></i>
            
               </div>
            </div>
@@ -43,12 +46,13 @@
                  <input v-model="comment" class="button" type="text" placeholder="Ajouter votre commentaire">
                  <button @click="createComment()">Commenter</button>
                </div>
-                <div class="commentaires" v-for="comment in comments" v-bind:key="comment.id"> 
+             <!--   <div class="commentaires" v-for="comment in comments" v-bind:key="comment.id"> -->
+               <div class="commentaires">
                    <div class="comment__user">
-                     <img  :src="comment.User.image" alt="photo de profil" class="comment__image">
+                     <img  alt="photo de profil" class="comment__image">
                     <div class="comment__details">
-                      <p class="comment__nom">{{ comment.User.prenom }} {{ comment.User.nom }}<i  class="fa fa-trash"></i></p>
-                   <p>{{ comment.comment }}</p>
+                      <p class="comment__nom">Maurice Moss<i  class="fa fa-trash"></i></p>
+                   <p>commentaire</p>
                     </div>
                     </div>
                     
@@ -62,32 +66,32 @@
 
 <script>
 import Header from '../components/Header.vue';
-//import Comment from '../components/Comment.vue';
 import axios from 'axios';
 import moment from 'moment';
+
 
 
 
 export default { 
     name: 'Post',
     components: {
-    Header,
-    //Comment
-  },
-  
+    Header },
+    
+   
   data() {
     return {
      content: '',
      image: '',
      user : {},
+     post : {},
      prenom: '',
      nom: '',
      userId: localStorage.getItem('userId'),
      posts: [],
      comments: [],
      comment: '',
-     isAdmin: '',
-     likes : ''
+     likes : '',
+     isAdmin: ''
     }
   },
   mounted () {
@@ -118,7 +122,7 @@ export default {
     });
 
     axios
-    .get(`http://localhost:3000/api/comment/14`, {
+    .get('http://localhost:3000/api/comment/', {
        headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
@@ -140,17 +144,16 @@ export default {
   },
 
    createComment () {
-        axios
-        .post('http://localhost:3000/api/comment/', {
+        axios.post('http://localhost:3000/api/comment/', {
             textComment: this.comment, 
-            userId: this.userId,},
+            userId: this.userId },
             {
             headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
          }
         })
-      .then(() => {
-          window.location.reload();
+      .then((response) => {
+          console.log(response)
       })
       .catch((error) => {
           console.log(error)
@@ -244,6 +247,9 @@ export default {
     border: 1px solid rgb(194, 194, 194);
     width: 50%;
     padding: 15px;
+    @media screen and ( max-width: 770px ) {
+      width: 70%
+    }
 }
 
 .user__header {
@@ -283,14 +289,38 @@ export default {
        margin: 5px;
        box-shadow: 5px 5px 10px #d4d4d4;
        font-weight: bold;
+       background-color: rgb(172, 208, 226);
    }
 }
+
+.label__publi {
+  border-radius: 20px;
+       border:none;
+       width: 40%;
+       padding: 15px;
+       margin: 5px;
+       box-shadow: 5px 5px 10px #d4d4d4;
+       font-weight: bold;
+       background-color: rgb(172, 208, 226);
+       text-align: center;
+       font-size: 13px;
+}
+
+.input__image {
+    display: none;
+ }
 
 .post__content {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 70%;
+  @media screen and ( max-width: 770px ) {
+    width: 100%;
+  @media screen and ( max-width: 390px ) {
+    width: 135%;
+  }
+ }
 }
 
 .fil__post {
@@ -331,8 +361,7 @@ export default {
     width: 62%;
     .comment__post {
         margin: 10px;
-        display: flex;
-        justify-content: space-between;
+        
     }
     i {
         padding : 10px;
@@ -341,17 +370,11 @@ export default {
 
 .image__publi {
   width: 100%;
-  max-height: 500px;
-  object-fit: cover;
+  max-height: 400px;
+  //object-fit: cover;
 }
 
-.button {
-    margin: 5px;
-    padding: 15px;
-    border-radius: 20px;
-    border: 1px solid rgb(194, 194, 194);
-    width: 50%
-}
+
 
 .comment__nom {
   text-decoration: underline;
@@ -378,7 +401,10 @@ export default {
     padding: 15px;
     border-radius: 20px;
     border: 1px solid rgb(194, 194, 194);
-    width: 50%
+    width: 50%;
+    @media screen and ( max-width: 550px ) {
+      font-size: 11px;
+    }
 }
 
 .comment__button {
@@ -388,8 +414,8 @@ export default {
    button {
        border-radius: 20px;
        border:none;
-       width: 40%;
-       padding: 15px;
+       width: 35%;
+       //padding: 15px;
        margin: 5px;
        box-shadow: 5px 5px 10px #d4d4d4;
        font-weight: bold;

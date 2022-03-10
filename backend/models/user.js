@@ -23,7 +23,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     isAdmin: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false
+      defaultValue: 0
     }
   },
    { tableName: 'User'
