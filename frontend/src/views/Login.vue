@@ -72,7 +72,7 @@ methods: {
       .catch(error => {
         console.log(error);
       });
-  },
+    },
     login () {
       const self = this;
       axios.post('http://localhost:3000/api/user/login', {

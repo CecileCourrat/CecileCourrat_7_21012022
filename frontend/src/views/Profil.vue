@@ -23,7 +23,7 @@ import Header from '../components/Header.vue';
 export default { 
     name: 'Profil',
     components: {
-    Header,
+    Header
   },
   data () {
     return {
@@ -48,7 +48,7 @@ mounted () {
 },
 
 methods : {
-      uploadImage(event) {
+    uploadImage(event) {
         const id = localStorage.getItem('userId')
         this.image = event.target.files[0];
         const fd = new FormData()
@@ -67,7 +67,7 @@ methods : {
           console.log(error)
        });
     },
-     deleteUser() {
+    deleteUser() {
       if (confirm('Voulez vous vraiment désactiver votre compte') == true) {
       const id = localStorage.getItem('userId')
       axios.delete(`http://localhost:3000/api/user/${id}`, {
@@ -129,7 +129,7 @@ methods : {
     text-align: center;
   }
   &:hover {
-    color: #ada9a9;
+    color: rgb(172, 208, 226);
   }
 }
 
