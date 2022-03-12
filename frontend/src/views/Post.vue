@@ -23,7 +23,7 @@
                 Publié le {{ postDate(post.createdAt) }}</p>
            </div>
             <div>
-              <i v-if="post.userId == userId || isAdmin ()" @click="deletePost(post.id)" class="fa fa-trash"></i>
+              <i v-if="post.userId == userId || userId ==='8'"  @click="deletePost(post.id)" class="fa fa-trash"></i>
             </div>
            </div>
         </div>  
@@ -32,7 +32,7 @@
             <div class="pubi__content">
               <p>{{ post.content }}</p>
               <div>
-               <img class="publi__image" alt="image du post" :src="post.image">
+               <img class="publi__image" :src="post.image">
               </div>
             </div>
           </div>
@@ -82,6 +82,12 @@ export default {
       comments: [],
       comment: '',
       likes : '',
+    }
+},
+
+beforeMount () {
+  if (!localStorage.getItem('userId')) {
+    this.$router.push('/');
     }
 },
 
@@ -214,7 +220,7 @@ methods: {
           console.log(error)
       });
     }
-  }, 
+  }
 }
 </script>
 

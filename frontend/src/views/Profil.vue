@@ -5,7 +5,7 @@
         <div class="page__profil">
            <div>
              <p class="utilisateur">{{ prenom }} {{ nom }}</p>
-             <p v-if=" isAdmin == true ">Admin</p>
+             <p class="admin" v-if="userId ==='8'">Administrateur</p>
            </div>
              <img :src="image" class="avatar__profil" alt="photo de profil">
              <label for="file" class="label__file">Modifier la photo de profil</label>
@@ -30,7 +30,13 @@ export default {
         prenom: '',
         nom: '',
         image: '',
-        isAdmin: ''
+        userId: localStorage.getItem('userId'),
+    }
+},
+
+beforeMount () {
+  if (!localStorage.getItem('userId')) {
+    this.$router.push('/');
     }
 },
 
@@ -111,6 +117,9 @@ methods : {
       font-weight: bold;
       font-size: 20px;
       padding: 10px;
+    }
+    .admin {
+      text-align: center;
     }
 }
 
