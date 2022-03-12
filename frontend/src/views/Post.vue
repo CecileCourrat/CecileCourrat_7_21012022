@@ -41,15 +41,14 @@
      <!-- <i class="far fa-comment-alt"></i><span>Commenter</span>-->
         <div class="comment__button">
           <input v-model="comment" class="button__comment" type="text" placeholder="Ajouter votre commentaire">
-          <button class="comment__create" @click="createComment()">Commenter</button>
+          <button class="comment__create" @click="createComment(post.id)">Commenter</button>
         </div>
-    <!-- <div class="commentaires" v-for="comment in comments" :post="post" v-bind:key="comment.id">-->
-        <div class="comments">
+      <div class="comments" v-for="comment in comments" v-bind:key="comment.id">
           <div class="comment__user">
-            <img alt="photo de profil" class="comment__image">
+            <img :src="comment.User.image"  alt="photo de profil" class="comment__image">
               <div class="comment__details">
-                <p class="comment__nom">Maurice Moss<i  class="fa fa-trash"></i></p>
-                  <p>Un commentaire</p>
+                <p class="comment__nom">{{ comment.User.prenom}} {{ comment.User.nom }} <i  class="fa fa-trash"></i></p>
+                  <p>{{ comment.textComment }}</p>
               </div>
            </div>    
          </div>
@@ -75,6 +74,7 @@ export default {
       content: '',
       image: '',
       user : {},
+      post : {},
       prenom: '',
       nom: '',
       userId: localStorage.getItem('userId'),
@@ -114,6 +114,8 @@ mounted () {
       .catch((error) => {
       console.log(error)
     });
+
+    this.getComment();
   },
  
 methods: {
@@ -126,36 +128,37 @@ methods: {
       return true;
     }
   },
-  getComment () {
-    axios.get('http://localhost:3000/api/comment/', {
+  getComment (postId) {
+    axios.get(`http://localhost:3000/api/comment/${postId}`, {
        headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
     }
    })
    .then((response) => {
-     this.comments = response.data.comment;
+     this.comments = response.data;
     })
     .catch((error) => {
         console.log(error)
     });
   },
-  createComment () {
-    const self = this;
-     axios.post('http://localhost:3000/api/comment/', {
-        textComment: this.comment, 
-        userId: this.userId },
-        {
-        headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
+  createComment (postId) {
+    const self= this;
+     axios.post('http://localhost:3000/api/comment', {
+       userId: this.userId,
+       textComment: this.comment,
+       postId: postId },
+       {
+         headers: {
+           Authorization: 'Bearer ' + localStorage.getItem('token')
          }
-        })
-      .then((response) => {
-          console.log(response)
-          self.getComment();
-      })
-      .catch((error) => {
-          console.log(error)
-      });
+       })
+       .then((response) => {
+         console.log(response);
+         self.getComment(postId);
+       })
+       .catch((error) => {
+         console.log(error)
+     })
   },
   like() {
      axios.post('http://localhost:3000/api/like/',{

@@ -35,7 +35,7 @@ exports.deleteComment = (req, res, next) => {
 exports.getAllComment = (req, res, next) => {
     db.Comment.findAll({  
         order: [
-            ['createdAt', 'DESC'],
+            ['createdAt', 'ASC'],
         ],
         include: [{model: db.User}]
    })
