@@ -1,6 +1,8 @@
 const http = require('http');
 const app = require('./app');
 
+
+//Synchronisation de la bdd
 const db = require('./models');
 db.sequelize.sync();
 

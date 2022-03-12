@@ -47,7 +47,8 @@
           <div class="comment__user">
             <img :src="comment.User.image"  alt="photo de profil" class="comment__image">
               <div class="comment__details">
-                <p class="comment__nom">{{ comment.User.prenom}} {{ comment.User.nom }} <i  class="fa fa-trash"></i></p>
+                <p class="comment__nom">{{ comment.User.prenom}} {{ comment.User.nom }} 
+                  <i v-if="comment.userId == userId || userId ==='8'" @click="deleteComment(comment.id)" class="fa fa-trash"></i></p>
                   <p>{{ comment.textComment }}</p>
               </div>
            </div>    
@@ -85,6 +86,7 @@ export default {
     }
 },
 
+
 beforeMount () {
   if (!localStorage.getItem('userId')) {
     this.$router.push('/');
@@ -115,8 +117,8 @@ mounted () {
       console.log(error)
     });
 
-    this.getComment();
-  },
+  this.getComment();
+},
  
 methods: {
   postDate(date) {
@@ -128,8 +130,8 @@ methods: {
       return true;
     }
   },
-  getComment (postId) {
-    axios.get(`http://localhost:3000/api/comment/${postId}`, {
+  getComment () {
+    axios.get('http://localhost:3000/api/comment', {
        headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
     }
@@ -141,12 +143,12 @@ methods: {
         console.log(error)
     });
   },
-  createComment (postId) {
+  createComment (id) {
     const self= this;
      axios.post('http://localhost:3000/api/comment', {
        userId: this.userId,
        textComment: this.comment,
-       postId: postId },
+       postId: id },
        {
          headers: {
            Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -154,12 +156,26 @@ methods: {
        })
        .then((response) => {
          console.log(response);
-         self.getComment(postId);
+         self.getComment();
        })
        .catch((error) => {
          console.log(error)
      })
   },
+
+deleteComment (id) {
+    axios.delete(`http://localhost:3000/api/comment/${id}`,  {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+          }
+        })
+        .then(() => {
+          window.location.reload();
+         })
+        .catch((error) => {
+          console.log(error)
+        });
+},
   like() {
      axios.post('http://localhost:3000/api/like/',{
        userId: this.userId,
