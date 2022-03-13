@@ -45,4 +45,8 @@ Dans le fichier config.json changez dans l'objet développement votre nom d'util
   
    [http://localhost:8080/](http://localhost:8080/)
 
+## Admin
+
+Créez un premier utilisateur qui sera l'admin 
+
 

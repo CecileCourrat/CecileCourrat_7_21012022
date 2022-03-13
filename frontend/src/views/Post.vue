@@ -14,7 +14,7 @@
         </div>
       </div>
    </div>
-   <div class="fil__post" v-for="post in posts" v-bind:key="post.id"> 
+   <div class="fil__post" v-for="post in posts"  :id="post.id" v-bind:key="post.id"> 
       <div class="post__content">
         <div class="post">
           <div class="post__details">
@@ -47,9 +47,10 @@
           <div class="comment__user">
             <img :src="comment.User.image"  alt="photo de profil" class="comment__image">
               <div class="comment__details">
-                <p class="comment__nom">{{ comment.User.prenom}} {{ comment.User.nom }} 
+                <p>{{ comment.User.prenom}} {{ comment.User.nom }}<br>
+                {{ postDate(comment.createdAt) }}
                   <i v-if="comment.userId == userId || userId ==='8'" @click="deleteComment(comment.id)" class="fa fa-trash"></i></p>
-                  <p>{{ comment.textComment }}</p>
+                <p>{{ comment.textComment }}</p>
               </div>
            </div>    
          </div>
@@ -86,7 +87,6 @@ export default {
     }
 },
 
-
 beforeMount () {
   if (!localStorage.getItem('userId')) {
     this.$router.push('/');
@@ -117,7 +117,8 @@ mounted () {
       console.log(error)
     });
 
-  this.getComment();
+    this.getComment();
+
 },
  
 methods: {
@@ -130,21 +131,24 @@ methods: {
       return true;
     }
   },
-  getComment () {
-    axios.get('http://localhost:3000/api/comment', {
-       headers: {
+
+  getComment() {
+    axios.get(`http://localhost:3000/api/comment/`, {
+      headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
-    }
-   })
-   .then((response) => {
-     this.comments = response.data;
+      }
     })
-    .catch((error) => {
-        console.log(error)
+     .then((response) => {
+       this.comments = response.data;
+    })
+      .catch((error) => {
+      console.log(error)
     });
-  },
+},
+
   createComment (id) {
-    const self= this;
+     if(this.comment !='') {
+     const self = this
      axios.post('http://localhost:3000/api/comment', {
        userId: this.userId,
        textComment: this.comment,
@@ -156,11 +160,12 @@ methods: {
        })
        .then((response) => {
          console.log(response);
-         self.getComment();
+         self.getComment()
        })
        .catch((error) => {
          console.log(error)
      })
+    }
   },
 
 deleteComment (id) {
@@ -223,6 +228,7 @@ deleteComment (id) {
         this.image = event.target.files[0];
   },
   createPost () {
+      if(this.content !='') {
         const fd = new FormData();
         fd.append('userId', this.userId);
         fd.append('content', this.content);
@@ -239,6 +245,7 @@ deleteComment (id) {
           console.log(error)
       });
     }
+  }
   }
 }
 </script>
@@ -288,6 +295,7 @@ deleteComment (id) {
        padding: 15px;
        margin: 5px;
        box-shadow: 5px 5px 10px #d4d4d4;
+       font-size: 14px;
        font-weight: bold;
        background-color: rgb(172, 208, 226);
    }
@@ -303,7 +311,7 @@ deleteComment (id) {
   font-weight: bold;
   background-color: rgb(172, 208, 226);
   text-align: center;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .input__image {
@@ -416,9 +424,6 @@ deleteComment (id) {
     border-radius: 50%;
     object-fit: cover;
     margin: 15px;
-  }
-  .comment__nom {
-    text-decoration: underline;
   }
   i {
     padding-left:25px;

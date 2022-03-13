@@ -10,6 +10,19 @@
              <img :src="image" class="avatar__profil" alt="photo de profil">
              <label for="file" class="label__file">Modifier la photo de profil</label>
              <input type="file" accept="image/*" id="file" class="input__image" v-on:change="uploadImage">
+              <form class="update">
+             <ul>
+              <li>
+             <label class="update__prenom" for="prenom">Modifier le prénom</label>
+             <input type="text" v-model="newPrenom">
+              </li>
+              <li>
+             <label class="update__nom" for="nom">Modifier le nom</label>
+             <input type="text" v-model="newNom">
+              </li>
+             </ul>
+            </form>
+             <button class="update__button" @click="updateUser()">Enregistrer les modifications</button>
              <p class="desactivate" @click="deleteUser()">Désactiver mon compte</p>
         </div>
      </div>     
@@ -31,6 +44,8 @@ export default {
         nom: '',
         image: '',
         userId: localStorage.getItem('userId'),
+        newPrenom: '',
+        newNom: ''
     }
 },
 
@@ -73,6 +88,27 @@ methods : {
           console.log(error)
        });
     },
+
+    updateUser() {
+      const id = localStorage.getItem('userId')
+      const fd = new FormData()
+      fd.append('prenom', this.newPrenom)
+      fd.append('nom', this.newNom)
+      axios.put(`http://localhost:3000/api/user/${id}`, fd,{
+         headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      })
+        .then((response) => {
+          this.newPrenom = response.data.prenom
+          this.newNom = response.data.nom
+          window.location.reload();
+        })
+         .catch((error) => {
+          console.log(error)
+       });
+    },
+    
     deleteUser() {
       if (confirm('Voulez vous vraiment désactiver votre compte') == true) {
       const id = localStorage.getItem('userId')
@@ -121,6 +157,41 @@ methods : {
     .admin {
       text-align: center;
     }
+}
+
+.update {
+  ul {
+    list-style-type: none;
+    @media screen and ( max-width: 710px ) {
+    padding: 0;
+    }
+  }
+  input {
+    width: 150px;
+    height: 20px;
+    margin-bottom: 5px;
+  }
+  .update__prenom {
+    margin: 5px;
+  }
+  .update__nom {
+    margin: 16px;
+  }
+  @media screen and ( max-width: 710px ) {
+    text-align: center;;
+  }
+}
+
+.update__button {
+  border-radius: 20px;
+  border:none;
+  width: 46%;
+  padding: 15px;
+  margin: 5px;
+  box-shadow: 5px 5px 10px #d4d4d4;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: rgb(172, 208, 226);
 }
 
 .avatar__profil {

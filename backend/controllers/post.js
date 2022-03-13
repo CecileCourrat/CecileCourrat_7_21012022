@@ -64,7 +64,7 @@ exports.getAllPost = (req, res, next) => {
         ],
         include: [
           { model: db.User }
-        ]
+        ]  
     })
       .then((post) => res.status(200).json({ post}))
       .catch((error) => res.status(400).json({ error }));
