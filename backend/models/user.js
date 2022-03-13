@@ -21,10 +21,6 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       defaultValue: 'http://localhost:3000/images/icon-avatar.png'
     },
-    isAdmin: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false
-    }
   },
    { tableName: 'User'
    }
@@ -38,10 +34,6 @@ module.exports = (sequelize, Sequelize) => {
          foreignKey : 'userId',
           onDelete: 'cascade'
       });
-    User.hasMany(models.Like,{
-        foreignKey: 'userId',
-        onDelete: 'cascade'
-    });
   };
     return User;
 };

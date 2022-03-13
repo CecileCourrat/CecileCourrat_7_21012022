@@ -30,7 +30,7 @@ mounted ()  {
        this.image = response.data.image  
     })
       .catch((error ) => {
-          console.log(error);
+        console.log(error);
     });
   },
 

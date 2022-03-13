@@ -8,10 +8,6 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      likes: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-      }
     },
     {
         tableName: 'post'
@@ -26,10 +22,6 @@ module.exports = (sequelize, Sequelize) => {
         foreignKey : 'userId',
         onDelete: 'cascade',
       });
-      Post.hasMany(models.Like,{
-       //foreignKey: 'userId',
-       // onDelete: 'cascade'
-    });
     };
     return Post;
 };

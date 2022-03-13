@@ -46,9 +46,11 @@ methods: {
     switchToCreateAccount() {
       this.mode = 'create';
     },
+
     switchToLogin() {
       this.mode = 'login';
     }, 
+
     createAccount() {
       if (!this.userRegex.test(this.prenom)) {
         return (this.error = 'Prénom non valide');
@@ -73,6 +75,7 @@ methods: {
         console.log(error);
       });
     },
+    
     login () {
       const self = this;
       axios.post('http://localhost:3000/api/user/login', {

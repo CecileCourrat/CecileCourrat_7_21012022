@@ -5,12 +5,12 @@
         <div class="page__profil">
            <div>
              <p class="utilisateur">{{ prenom }} {{ nom }}</p>
-             <p class="admin" v-if="userId ==='8'">Administrateur</p>
+             <p class="admin" v-if="userId ==='1'">Administrateur</p>
            </div>
              <img :src="image" class="avatar__profil" alt="photo de profil">
              <label for="file" class="label__file">Modifier la photo de profil</label>
              <input type="file" accept="image/*" id="file" class="input__image" v-on:change="uploadImage">
-              <form class="update">
+            <form class="update">
              <ul>
               <li>
              <label class="update__prenom" for="prenom">Modifier le prénom</label>

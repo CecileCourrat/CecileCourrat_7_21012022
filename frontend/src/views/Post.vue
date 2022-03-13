@@ -13,8 +13,8 @@
           </div>
         </div>
       </div>
-   </div>
-   <div class="fil__post" v-for="post in posts"  :id="post.id" v-bind:key="post.id"> 
+    </div>
+    <div class="fil__post" v-for="post in posts" :key="post.id">
       <div class="post__content">
         <div class="post">
           <div class="post__details">
@@ -23,7 +23,7 @@
                 Publié le {{ postDate(post.createdAt) }}</p>
            </div>
             <div>
-              <i v-if="post.userId == userId || userId ==='8'"  @click="deletePost(post.id)" class="fa fa-trash"></i>
+              <i v-if="post.userId == userId || userId ==='1'"  @click="deletePost(post.id)" class="fa fa-trash"></i>
             </div>
            </div>
         </div>  
@@ -36,29 +36,25 @@
               </div>
             </div>
           </div>
-        <div class="reaction__icons">
-          <i class="far fa-thumbs-up" @click="like(post.id)"></i><span>{{likes}} J'aime</span>
-     <!-- <i class="far fa-comment-alt"></i><span>Commenter</span>-->
         <div class="comment__button">
           <input v-model="comment" class="button__comment" type="text" placeholder="Ajouter votre commentaire">
           <button class="comment__create" @click="createComment(post.id)">Commenter</button>
         </div>
-      <div class="comments" v-for="comment in comments" v-bind:key="comment.id">
+      <div class="comments" v-for="comment in comments" :key="comment.id">
           <div class="comment__user">
             <img :src="comment.User.image"  alt="photo de profil" class="comment__image">
               <div class="comment__details">
                 <p>{{ comment.User.prenom}} {{ comment.User.nom }}<br>
                 {{ postDate(comment.createdAt) }}
-                  <i v-if="comment.userId == userId || userId ==='8'" @click="deleteComment(comment.id)" class="fa fa-trash"></i></p>
+                  <i v-if="comment.userId == userId || userId ==='1'" @click="deleteComment(comment.id)" class="fa fa-trash"></i></p>
                 <p>{{ comment.textComment }}</p>
-              </div>
-           </div>    
+           </div>
+          </div>    
          </div>
        </div>
       </div>
      </div>
     </div> 
-   </div>
 </template>
 
 <script>
@@ -83,7 +79,6 @@ export default {
       posts: [],
       comments: [],
       comment: '',
-      likes : '',
     }
 },
 
@@ -100,7 +95,7 @@ mounted () {
        this.prenom = response.data.prenom
        this.nom = response.data.nom
        this.image = response.data.image    
- })
+  })
       .catch((error ) => {
         console.log(error);
      });
@@ -118,20 +113,13 @@ mounted () {
     });
 
     this.getComment();
-
 },
  
 methods: {
   postDate(date) {
     return moment(date).format('DD/MM/YYYY à hh:mm')
   },
-  isAdmin () {
-    const isAdmin = this.userId.isAdmin;
-    if (isAdmin) {
-      return true;
-    }
-  },
-
+  
   getComment() {
     axios.get(`http://localhost:3000/api/comment/`, {
       headers: {
@@ -168,7 +156,7 @@ methods: {
     }
   },
 
-deleteComment (id) {
+  deleteComment (id) {
     axios.delete(`http://localhost:3000/api/comment/${id}`,  {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -181,36 +169,7 @@ deleteComment (id) {
           console.log(error)
         });
 },
-  like() {
-     axios.post('http://localhost:3000/api/like/',{
-       userId: this.userId,
-       },
-       {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-     })
-     .then((response) => {
-        console.log(response)
-        })
-        .catch((error) => {
-          console.log(error)
-        });
-  },
-  modifyPost (id) {
-     axios
-    .put(`http://localhost:3000/api/post/${id}`,  {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-          })
-          .then(() => {
-              window.location.reload();
-          })
-          .catch((error) => {
-              console.log(error)
-          });
-  },
+  
   deletePost (id) {
     axios.delete(`http://localhost:3000/api/post/${id}`,  {
       headers: {
@@ -224,11 +183,12 @@ deleteComment (id) {
           console.log(error)
         });
   },
+
   uploadImage(event) {
         this.image = event.target.files[0];
   },
+
   createPost () {
-      if(this.content !='') {
         const fd = new FormData();
         fd.append('userId', this.userId);
         fd.append('content', this.content);
@@ -245,7 +205,6 @@ deleteComment (id) {
           console.log(error)
       });
     }
-  }
   }
 }
 </script>
