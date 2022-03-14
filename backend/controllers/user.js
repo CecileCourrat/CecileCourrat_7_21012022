@@ -4,6 +4,7 @@ const passwordValidator = require('password-validator');
 const db = require('../models');
 const fs = require('fs');
 
+//Schéma pour le mot de passe
 const schema = new passwordValidator();
 schema
   .is().min(6)
@@ -11,7 +12,6 @@ schema
   .has().uppercase()
   .has().lowercase()
   .has().digits(1)
-
 
 
 exports.signup = (req, res, next) => {
@@ -87,8 +87,8 @@ exports.deleteUser = async (req, res, next) => {
         .then(() => res.status(200).json({ message: 'Compte désactivé' }))
         .catch(error => res.status(400).json({ error }));
       })
-      .catch (error => res.status(500).json({ error }));
-      };
+    .catch (error => res.status(500).json({ error }));
+};
 
   
 

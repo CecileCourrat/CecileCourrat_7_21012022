@@ -8,13 +8,11 @@ exports.createPost = async (req, res, next) => {
         userId: req.body.userId,
         content: req.body.content,
         image: imagePost,
-        likes: 0,
     });
   } else {
     await db.Post.create({
       userId: req.body.userId,
       content: req.body.content,
-      likes: 0,
     })
   }
   try {
@@ -24,20 +22,6 @@ exports.createPost = async (req, res, next) => {
   }
 };
 
-
-exports.modifyPost = (req, res, next) => {
-  if (req.file) {
-    const imagePost = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    db.Post.update({ image: imagePost }, { where: { id: req.params.id } });
-  }
-  db.Post.update(
-    { content: req.body.content },
-    { where: { id: req.params.id } })
-    .then(() => res.status(200).json({ message: 'Publication modifiée' }))
-    .catch((error) => res.status(400).json({ error }));
-};
-   
-  
 
 exports.deletePost = async (req, res, next) => {
   db.Post.findOne({ where: { id: req.params.id } })
@@ -55,8 +39,7 @@ exports.deletePost = async (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-       
-    
+         
 exports.getAllPost = (req, res, next) => {
     db.Post.findAll({
         order: [
