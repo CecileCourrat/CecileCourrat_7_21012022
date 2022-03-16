@@ -47,6 +47,6 @@ Dans le fichier config.json changez dans l'objet développement votre nom d'util
 
 ## Admin
 
-Créez un premier utilisateur qui sera l'administrateur
+Créez un premier utilisateur qui sera l'administrateur avec l'adresse email admin@gmail.com
 
 
