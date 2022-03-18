@@ -40,7 +40,7 @@
           <input v-model="comment" class="button__comment" type="text" placeholder="Ajouter votre commentaire">
           <button class="comment__create" @click="createComment(post.id)">Commenter</button>
         </div>
-      <div class="comments" v-for="comment in comments" :key="comment.id">
+         <div class="comments" v-for="comment in comments" :key="comment.id">
           <div class="comment__user">
             <img :src="comment.User.image"  alt="photo de profil" class="comment__image">
               <div class="comment__details">
@@ -48,7 +48,7 @@
                 {{ postDate(comment.createdAt) }}
                   <i v-if="comment.userId == userId || userId ==='1'" @click="deleteComment(comment.id)" class="fa fa-trash"></i></p>
                 <p>{{ comment.textComment }}</p>
-           </div>
+           </div>  
           </div>    
          </div>
        </div>
@@ -66,7 +66,7 @@ export default {
     name: 'Post',
     components: {
     Header 
-  },
+  }, 
   data () {
     return {
       content: '',
@@ -113,15 +113,16 @@ mounted () {
     });
 
     this.getComment();
+   
 },
  
 methods: {
   postDate(date) {
     return moment(date).format('DD/MM/YYYY à hh:mm')
   },
-  
+
   getComment() {
-    axios.get(`http://localhost:3000/api/comment/`, {
+     axios.get('http://localhost:3000/api/comment/' , {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
       }
@@ -136,7 +137,6 @@ methods: {
 
   createComment (id) {
      if(this.comment !='') {
-     const self = this
      axios.post('http://localhost:3000/api/comment', {
        userId: this.userId,
        textComment: this.comment,
@@ -148,7 +148,7 @@ methods: {
        })
        .then((response) => {
          console.log(response);
-         self.getComment()
+         window.location.reload();
        })
        .catch((error) => {
          console.log(error)
@@ -289,14 +289,15 @@ methods: {
   flex-direction: column;
   align-items: center;
   width: 70%;
+  margin: 5px;
   @media screen and ( max-width: 770px ) {
     width: 100%;
   }
   .post {
     border: 1px solid rgb(194, 194, 194);
     width: 62%;
-    @media screen and ( max-width: 320px ) {
-      width: 70%;
+    @media screen and ( max-width: 450px ) {
+      width: 80%;
     }
   }
 }
@@ -326,8 +327,8 @@ methods: {
 .publi {
     border: 1px solid rgb(194, 194, 194);
     width: 62%;
-    @media screen and ( max-width: 320px ) {
-      width: 70%;
+    @media screen and ( max-width: 450px ) {
+      width: 80%;
     }
     .publi__details {
       margin: 10px;  
